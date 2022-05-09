@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         appBar: AppBar(
           bottom: TabBar(
             onTap: (index) {
-              // Should not used it as it only called when tab options are clicked,
+              // Should not used it as it only called when tab options are clicked,,
               // not when user swapped
             },
             controller: _controller,
