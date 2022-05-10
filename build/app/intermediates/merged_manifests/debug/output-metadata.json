@@ -4,7 +4,7 @@
     "type": "MERGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "com.example.babify",
+  "applicationId": "com.example.flutter_application_1",
   "variantName": "debug",
   "elements": [
     {

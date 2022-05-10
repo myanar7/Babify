@@ -1,7 +1,4 @@
-# babify
-
-![CI/CD](https://github.com/myanar7/Babify/actions/workflows/android.yml/badge.svg)
-![CI/CD](https://github.com/myanar7/Babify/actions/workflows/ios.yml/badge.svg)
+# flutter_application_1
 
 A new Flutter project.
 
