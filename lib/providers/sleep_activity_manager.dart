@@ -11,4 +11,8 @@ class SleepActivityManager extends StateNotifier<List<SleepActivity>>{
     var newSleepActivity = SleepActivity(id: const Uuid().v4(), startTime: startTime, finishTime: finishTime, second: second);
     state = [...state, newSleepActivity];
   }
+
+  void remove(SleepActivity sleepActivity) {
+    state = state.where((element) => element.id != sleepActivity.id).toList();
+  }
 }

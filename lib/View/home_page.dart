@@ -16,10 +16,18 @@ class HomePage extends ConsumerWidget {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SleepPage()));
           }, icon: const Icon(Icons.add),),
           ListView.builder(shrinkWrap: true,itemCount: _allSleepActivities.length,itemBuilder: ((context, index) {
-            return Text(_allSleepActivities[index].second.toString());
+            return Dismissible(
+              key: ValueKey(_allSleepActivities[index].id),
+              onDismissed: (a){
+                ref.read(sleepActivityProvider.notifier).remove(_allSleepActivities[index]);
+              },
+              child: Text(_allSleepActivities[index].second.toString()),
+            );
           }),)
           
-          
+
+
+
         ],
       )
       
