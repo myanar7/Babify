@@ -1,4 +1,4 @@
-#Tue May 10 15:47:04 TRT 2022
-base.0=C\:\\Users\\furka\\Desktop\\Babify\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-renamed.0=classes.dex
+#Wed May 11 00:13:43 EET 2022
+base.0=/home/mustafa/Desktop/FlutterProjects/Babify/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 path.0=classes.dex
+renamed.0=classes.dex
