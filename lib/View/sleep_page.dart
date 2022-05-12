@@ -52,15 +52,12 @@ class _SleepPageState extends ConsumerState<SleepPage> {
                       _dateController = false;
                       startTime = DateTime.now();
                     }
-                    
+                    setState(() {});
                   },
-                  setState(() {
-                    
-                  });
                   child: Text('Start')),
           ElevatedButton(
               onPressed: () {
-                int second = int.parse(timer.seconds);
+                int second = timer.duration.inSeconds;
                 timer.reset();
                 _controller = false;
                 timer.timer.cancel();

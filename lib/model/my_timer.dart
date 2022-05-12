@@ -11,6 +11,7 @@ class MyTimer {
   String get minutes => _minutes;
   String get seconds => _seconds;
   Timer get timer => _timer;
+  Duration get duration => _duration;
 
   buildTime() {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
