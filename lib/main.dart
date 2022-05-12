@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/View/album_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'View/home_page.dart';
@@ -34,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   List<Widget> list = [
     const Tab(icon: Icon(Icons.card_travel)),
     const Tab(icon: Icon(Icons.add_shopping_cart)),
+    const Tab(icon: Icon(Icons.photo)),
   ];
 
   @override
@@ -65,10 +67,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ),
         body: TabBarView(
           controller: _controller,
-          children: const [
-            HomePage(),
-            HomePage(),
-          ],
+          children: const [HomePage(), HomePage(), AlbumPage()],
         ),
       ),
     );

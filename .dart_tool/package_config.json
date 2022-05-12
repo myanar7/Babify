@@ -38,6 +38,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "cross_file",
+      "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/cross_file-0.3.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "crypto",
       "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.2",
       "packageUri": "lib/",
@@ -74,6 +80,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_plugin_android_lifecycle",
+      "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_riverpod",
       "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_riverpod-2.0.0-dev.6",
       "packageUri": "lib/",
@@ -86,10 +98,64 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_web_plugins",
+      "rootUri": "file:///home/mustafa/flutter/packages/flutter_web_plugins",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "hooks_riverpod",
       "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/hooks_riverpod-2.0.0-dev.6",
       "packageUri": "lib/",
       "languageVersion": "2.14"
+    },
+    {
+      "name": "http",
+      "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/http-0.13.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "http_parser",
+      "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "image_picker",
+      "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.8.5+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "image_picker_android",
+      "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker_android-0.8.4+13",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "image_picker_for_web",
+      "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker_for_web-2.1.8",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "image_picker_ios",
+      "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker_ios-0.8.5+2",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "image_picker_platform_interface",
+      "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker_platform_interface-2.4.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "js",
+      "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "lints",
@@ -118,6 +184,12 @@
     {
       "name": "path",
       "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "plugin_platform_interface",
+      "rootUri": "file:///home/mustafa/flutter/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-2.1.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -200,7 +272,7 @@
       "languageVersion": "2.16"
     }
   ],
-  "generated": "2022-05-10T21:25:17.010496Z",
+  "generated": "2022-05-12T00:27:06.670815Z",
   "generator": "pub",
   "generatorVersion": "2.16.2"
 }

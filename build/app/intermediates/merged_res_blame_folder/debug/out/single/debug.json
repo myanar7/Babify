@@ -16,10 +16,6 @@
         "source": "/home/mustafa/Desktop/FlutterProjects/Babify/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
     },
     {
-        "merged": "/home/mustafa/Desktop/FlutterProjects/Babify/build/app/intermediates/res/merged/debug/drawable_launch_background.xml.flat",
-        "source": "/home/mustafa/Desktop/FlutterProjects/Babify/android/app/src/main/res/drawable/launch_background.xml"
-    },
-    {
         "merged": "/home/mustafa/Desktop/FlutterProjects/Babify/build/app/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher.png.flat",
         "source": "/home/mustafa/Desktop/FlutterProjects/Babify/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
     },
