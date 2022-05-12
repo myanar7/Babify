@@ -8,7 +8,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var _allSleepActivities = ref.watch(sleepActivityProvider);
+    var _allSleepActivities = ref.watch(sleepActivityProvider);    
     return Scaffold(
       body: ListView(
         children: [
@@ -24,10 +24,6 @@ class HomePage extends ConsumerWidget {
               child: Text(_allSleepActivities[index].second.toString()),
             );
           }),)
-          
-
-
-
         ],
       )
       
