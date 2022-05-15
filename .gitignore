@@ -35,7 +35,7 @@
 lib/generated_plugin_registrant.dart
 
 #Authentication
-lib/utilities/keys.dart
+#lib/utilities/keys.dart
 
 # Symbolication related
 app.*.symbols
