@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/View/album_page.dart';
 import 'package:flutter_application_1/View/comment_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
+import 'package:flutter_application_1/View/entertainment_page.dart';
 import 'View/home_page.dart';
 
 void main() {
@@ -38,6 +38,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     const Tab(icon: Icon(Icons.add_shopping_cart)),
     const Tab(icon: Icon(Icons.photo)),
     const Tab(icon: Icon(Icons.comment)),
+    const Tab(icon: Icon(Icons.video_collection)),
+
   ];
 
   @override
@@ -65,11 +67,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             controller: _controller,
             tabs: list,
           ),
-          title: const Text('Tabs Demo'),
+          title: const Text('Babify App Bar'),
         ),
         body: TabBarView(
           controller: _controller,
-          children: const [HomePage(), HomePage(), AlbumPage(), CommentPage()],
+          children: const [
+            HomePage(),
+            HomePage(),
+            EntartainmentPage(),
+            AlbumPage(),
+            CommentPage()
+          ],
         ),
       ),
     );
