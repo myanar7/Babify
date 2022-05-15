@@ -30,6 +30,20 @@ class _CameraPageState extends ConsumerState<CameraPage> {
     }
   }
 
+  Future pickImageOnGallery() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+      if (image == null) return;
+
+      final imageTemp = File(image.path);
+
+      setState((() => this.image = imageTemp));
+    } on PlatformException catch (e) {
+      print("ERROOOOOR ON IMAGE PICK");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +54,10 @@ class _CameraPageState extends ConsumerState<CameraPage> {
             MaterialButton(
               onPressed: (() => pickImage()),
               child: const Text("Open Camera"),
+            ),
+            MaterialButton(
+              onPressed: (() => pickImageOnGallery()),
+              child: const Text("Open Gallery"),
             ),
             const SizedBox(
               height: 20,
