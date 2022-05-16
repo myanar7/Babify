@@ -1,6 +1,7 @@
+import 'package:flutter_application_1/model/timer_activity.dart';
 import 'package:uuid/uuid.dart';
 
-class SleepActivity{
+class SleepActivity extends TimerActivity{
   String id;
   DateTime startTime;
   DateTime finishTime;
@@ -9,8 +10,6 @@ class SleepActivity{
 
   SleepActivity({required this.id, required this.startTime, required this.finishTime, required this.second, required this.note });
 
-  factory SleepActivity.create({required startTime, required finishTime, required second, required note}){
-    return SleepActivity(id: const Uuid().v4(), startTime: startTime, finishTime: finishTime, second: second, note: note);
-  }
+ 
 
 }

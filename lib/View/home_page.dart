@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/View/sleep_page.dart';
+import 'package:flutter_application_1/model/sleep_activity.dart';
+import 'package:flutter_application_1/model/timer_activity.dart';
 import 'package:flutter_application_1/model/tummy_activity.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 import '../providers/all_providers.dart';
 
@@ -18,13 +21,11 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   String provNote = '';
-  var _allSleepActivities = [];
-  var _allTummyActivities = [];
+  var _allTimerActivities = [];
   @override
   Widget build(BuildContext context) {
-    _allSleepActivities = ref.watch(sleepActivityProvider);
-    _allTummyActivities = ref.watch(tummyActivityProvider);
-    var sleepActivity = SleepPage(activity: 'sleep');
+    _allTimerActivities = ref.watch(timerActivityProvider);
+    var sleepActivity = const SleepPage(activity: 'sleep');
     var tummyActivity = const SleepPage(activity: 'tummy');
     return Scaffold(
       body: ListView(
@@ -36,43 +37,27 @@ class _HomePageState extends ConsumerState<HomePage> {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => tummyActivity));
           }, icon: const Icon(Icons.add),),
 
-          ListView.builder(shrinkWrap: true,itemCount: _allSleepActivities.length,itemBuilder: ((context, index) {
+          ListView.builder(shrinkWrap: true,itemCount: _allTimerActivities.length,itemBuilder: ((context, index) {
             return Dismissible(
-              key: ValueKey(_allSleepActivities[index].id),
+              key: ValueKey(_allTimerActivities[index].id),
               onDismissed: (a){
-                ref.read(sleepActivityProvider.notifier).remove(_allSleepActivities[index]);
+                ref.read(timerActivityProvider.notifier).remove(_allTimerActivities[index]);
               },
               child: GestureDetector(
                 onTap: () {
-                  setActivity(context, 'sleep', _allSleepActivities[index].id);
-                },child: Text(_allSleepActivities[index].second.toString() + _allSleepActivities[index].note),
+                  setActivity(context, _allTimerActivities[index].id);
+                },child: Text(_allTimerActivities[index].second.toString() + _allTimerActivities[index].note),
               ) 
             );
           }),),
-
-          for(var i=0; i<_allTummyActivities.length; i++)
-            Dismissible(
-              key: ValueKey(_allTummyActivities[i].id),
-              onDismissed: (a){
-                ref.read(tummyActivityProvider.notifier).remove(_allTummyActivities[i]);
-              },
-              child: GestureDetector(
-                onTap: () {
-                  setActivity(context, 'tummy', _allTummyActivities[i].id);
-                },child: Text(_allTummyActivities[i].second.toString() + _allTummyActivities[i].note),
-              ) 
-              
-            )
         ],
       )
       
-    );
-
-    
+    );    
   }
 
 
-  void setActivity(BuildContext context,  String activity, String id) {
+  void setActivity(BuildContext context, String id) {
     noteDialog(context);
     DateTime startTime = DateTime.now();
     DateTime endTime = DateTime.now();
@@ -81,22 +66,20 @@ class _HomePageState extends ConsumerState<HomePage> {
       DatePicker.showDateTimePicker(context, onConfirm: ((time) {
         endTime = time;
         int totalMinute = (endTime.hour - startTime.hour) * 60 + (endTime.minute - startTime.minute);
-        if(activity == 'sleep'){
-          for(int i=0; i<_allSleepActivities.length; i++){
-            if(_allSleepActivities[i].id == id){
-              ref.read(sleepActivityProvider.notifier).remove(_allSleepActivities[i]);
+          int i=0;
+          for(; i<_allTimerActivities.length; i++){
+            if(_allTimerActivities[i].id == id){
+              ref.read(timerActivityProvider.notifier).remove(_allTimerActivities[i]);
+              break;
             }
           }          
-          ref.read(tummyActivityProvider.notifier).addActivity(startTime, endTime, totalMinute, provNote);
-        }else{
-          for(int i=0; i<_allTummyActivities.length; i++){
-            if(_allTummyActivities[i].id == id){
-              ref.read(tummyActivityProvider.notifier).remove(_allTummyActivities[i]);
-            }
+          if(_allTimerActivities[i] is SleepActivity ){
+            TimerActivity sleepActivity = SleepActivity(id: const Uuid().v4(), startTime: startTime, finishTime: endTime, second: totalMinute, note: provNote);
+            ref.read(timerActivityProvider.notifier).addActivity(sleepActivity);
+          }else{
+            TimerActivity tummyActivity = TummyActivity(id: const Uuid().v4(), startTime: startTime, finishTime: endTime, second: totalMinute, note: provNote);
+            ref.read(timerActivityProvider.notifier).addActivity(tummyActivity);
           }
-          
-          ref.read(tummyActivityProvider.notifier).addActivity(startTime, endTime, totalMinute, provNote);
-        }
         }));
     }   
     );

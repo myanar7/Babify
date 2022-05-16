@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/my_timer.dart';
 import 'package:flutter_application_1/model/sleep_activity.dart';
+import 'package:flutter_application_1/model/timer_activity.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:uuid/uuid.dart';
+import '../model/tummy_activity.dart';
 
-import '../providers/sleep_activity_manager.dart';
 
 class SleepPage extends ConsumerStatefulWidget {
   final String activity;
@@ -47,9 +49,7 @@ class _SleepPageState extends ConsumerState<SleepPage> {
     timer.buildTime();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add ' + activity),
-        
-        
+        title: Text('Add ' + activity),                
         actions: [
           IconButton(
               onPressed: () {
@@ -114,15 +114,12 @@ class _SleepPageState extends ConsumerState<SleepPage> {
         endTime = time;
         int totalMinute = findMinute();
         if(activity == 'sleep'){
-          ref
-            .read(sleepActivityProvider.notifier)
-            .addActivity(startTime, endTime, totalMinute, provNote);
+          TimerActivity sleepActivity = SleepActivity(id: const Uuid().v4(), startTime: startTime, finishTime: endTime, second: totalMinute, note: provNote);
+                ref.read(timerActivityProvider.notifier).addActivity(sleepActivity);
         }else{
-          ref
-            .read(tummyActivityProvider.notifier)
-            .addActivity(startTime, endTime, totalMinute, provNote);
-        }
-        
+          TimerActivity tummyActivity = TummyActivity(id: const Uuid().v4(), startTime: startTime, finishTime: endTime, second: totalMinute, note: provNote);
+                ref.read(timerActivityProvider.notifier).addActivity(tummyActivity);
+        }        
       }));
     }   
     );
@@ -135,13 +132,11 @@ class _SleepPageState extends ConsumerState<SleepPage> {
               clearTimer();
               endTime = DateTime.now();
               if(activity == 'sleep'){
-                ref
-                  .read(sleepActivityProvider.notifier)
-                  .addActivity(startTime, endTime, second, provNote);
+                TimerActivity sleepActivity = SleepActivity(id: const Uuid().v4(), startTime: startTime, finishTime: endTime, second: second, note: provNote);
+                ref.read(timerActivityProvider.notifier).addActivity(sleepActivity);
               }else{
-                ref
-                  .read(tummyActivityProvider.notifier)
-                  .addActivity(startTime, endTime, second, provNote);
+                TimerActivity tummyActivity = TummyActivity(id: const Uuid().v4(), startTime: startTime, finishTime: endTime, second: second, note: provNote);
+                ref.read(timerActivityProvider.notifier).addActivity(tummyActivity);
               }
             },
             child: const Text('Cancel'));
