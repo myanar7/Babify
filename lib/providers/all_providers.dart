@@ -4,6 +4,8 @@ import 'package:flutter_application_1/providers/photo_provider.dart';
 import 'package:flutter_application_1/providers/sleep_activity_manager.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:flutter_application_1/providers/baby_profile_manager.dart';
+import 'package:flutter_application_1/model/baby.dart';
 
 final sleepActivityProvider =
     StateNotifierProvider<SleepActivityManager, List<SleepActivity>>((ref) {
@@ -12,6 +14,10 @@ final sleepActivityProvider =
 final photoAlbumProvider =
     StateNotifierProvider<PhotoProviderManager, List<PhotoModel>>((ref) {
   return PhotoProviderManager([]);
+});
+final babyProfileProvider =
+    StateNotifierProvider<BabyProfileManager, List<Baby>>((ref) {
+  return BabyProfileManager([]);
 });
 final commentProvider = StreamProvider.autoDispose<List<String>>((ref) async* {
   // https://www.piesocket.com/websocket-tester to test your Web Socket Connection
