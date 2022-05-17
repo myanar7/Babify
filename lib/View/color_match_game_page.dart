@@ -47,23 +47,27 @@ class ColorGameState extends State<ColorGame> {
       body: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Column(
+          SingleChildScrollView(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: choices.keys.map((emoji) {
+                  return Draggable<String>(
+                    data: emoji,
+                    child: Emoji(emoji: score[emoji] == true ? '✅' : emoji),
+                    feedback: Emoji(emoji: emoji),
+                    childWhenDragging: const Emoji(emoji: '🌱'),
+                  );
+                }).toList()),
+          ), //end of column 1
+          SingleChildScrollView(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: choices.keys.map((emoji) {
-                return Draggable<String>(
-                  data: emoji,
-                  child: Emoji(emoji: score[emoji] == true ? '✅' : emoji),
-                  feedback: Emoji(emoji: emoji),
-                  childWhenDragging: const Emoji(emoji: '🌱'),
-                );
-              }).toList()), //end of column 1
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children:
-                choices.keys.map((emoji) => _builDragTarget(emoji)).toList()
-                  ..shuffle(Random(seed)),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children:
+                  choices.keys.map((emoji) => _builDragTarget(emoji)).toList()
+                    ..shuffle(Random(seed)),
+            ),
           )
         ],
       ),
