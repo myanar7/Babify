@@ -42,6 +42,7 @@ dependencies:
   web_socket_channel: ^2.2.0
   youtube_player_flutter: ^8.0.0
   age_calculator: ^1.0.0
+  audioplayers: ^0.20.1
   
   
 dev_dependencies:
@@ -67,9 +68,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+assets:
+  - success.mp3
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

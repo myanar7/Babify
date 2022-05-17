@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/View/album_page.dart';
+import 'package:flutter_application_1/View/color_match_game_page.dart';
 import 'package:flutter_application_1/View/comment_page.dart';
 import 'package:flutter_application_1/View/new_baby_profile.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -40,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     const Tab(icon: Icon(Icons.photo)),
     const Tab(icon: Icon(Icons.comment)),
     const Tab(icon: Icon(Icons.video_collection)),
+    const Tab(icon: Icon(Icons.gamepad)),
   ];
 
   @override
@@ -76,7 +78,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             NewBabyProfilePage(),
             EntartainmentPage(),
             AlbumPage(),
-            CommentPage()
+            CommentPage(),
+            ColorGame(),
           ],
         ),
       ),
