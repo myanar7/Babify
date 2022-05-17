@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/View/sleep_page.dart';
+import 'package:flutter_application_1/View/deneme_page.dart';
+import 'package:flutter_application_1/View/timer_page.dart';
 import 'package:flutter_application_1/model/sleep_activity.dart';
 import 'package:flutter_application_1/model/timer_activity.dart';
 import 'package:flutter_application_1/model/tummy_activity.dart';
@@ -25,8 +26,8 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     _allTimerActivities = ref.watch(timerActivityProvider);
-    var sleepActivity = const SleepPage(activity: 'sleep');
-    var tummyActivity = const SleepPage(activity: 'tummy');
+    var sleepActivity = const TimerPage(activity: 'sleep');
+    var tummyActivity = const TimerPage(activity: 'tummy');
     return Scaffold(
       body: ListView(
         children: [
@@ -66,20 +67,8 @@ class _HomePageState extends ConsumerState<HomePage> {
       DatePicker.showDateTimePicker(context, onConfirm: ((time) {
         endTime = time;
         int totalMinute = (endTime.hour - startTime.hour) * 60 + (endTime.minute - startTime.minute);
-          int i=0;
-          for(; i<_allTimerActivities.length; i++){
-            if(_allTimerActivities[i].id == id){
-              ref.read(timerActivityProvider.notifier).remove(_allTimerActivities[i]);
-              break;
-            }
-          }          
-          if(_allTimerActivities[i] is SleepActivity ){
-            TimerActivity sleepActivity = SleepActivity(id: const Uuid().v4(), startTime: startTime, finishTime: endTime, second: totalMinute, note: provNote);
-            ref.read(timerActivityProvider.notifier).addActivity(sleepActivity);
-          }else{
-            TimerActivity tummyActivity = TummyActivity(id: const Uuid().v4(), startTime: startTime, finishTime: endTime, second: totalMinute, note: provNote);
-            ref.read(timerActivityProvider.notifier).addActivity(tummyActivity);
-          }
+        ref.read(timerActivityProvider.notifier).edit(id, totalMinute, startTime, endTime, provNote);
+                  
         }));
     }   
     );
