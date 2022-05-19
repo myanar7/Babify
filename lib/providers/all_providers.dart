@@ -1,19 +1,20 @@
 import 'package:flutter_application_1/model/photo_model.dart';
-import 'package:flutter_application_1/model/sleep_activity.dart';
 import 'package:flutter_application_1/providers/photo_provider.dart';
-import 'package:flutter_application_1/providers/sleep_activity_manager.dart';
+import 'package:flutter_application_1/providers/timer_activity_manager.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../model/timer_activity.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:flutter_application_1/providers/baby_profile_manager.dart';
 import 'package:flutter_application_1/model/baby.dart';
 
-final sleepActivityProvider =
-    StateNotifierProvider<SleepActivityManager, List<SleepActivity>>((ref) {
-  return SleepActivityManager([]);
-});
 final photoAlbumProvider =
     StateNotifierProvider<PhotoProviderManager, List<PhotoModel>>((ref) {
   return PhotoProviderManager([]);
+});
+
+final timerActivityProvider =
+    StateNotifierProvider<TimerActivityManager, List<TimerActivity>>((ref) {
+  return TimerActivityManager([]);
 });
 final babyProfileProvider =
     StateNotifierProvider<BabyProfileManager, List<Baby>>((ref) {
