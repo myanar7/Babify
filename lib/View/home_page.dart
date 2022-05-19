@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/View/deneme_page.dart';
 import 'package:flutter_application_1/View/timer_page.dart';
 import 'package:flutter_application_1/model/sleep_activity.dart';
 import 'package:flutter_application_1/model/timer_activity.dart';
