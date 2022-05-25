@@ -10,16 +10,29 @@ class AlbumPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const Padding(
-          padding: EdgeInsets.only(top: 10, right: 5, left: 5),
-          child: PhotoListWidget()),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => const CameraPage()));
-        },
-        child: const Icon(Icons.add_a_photo),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.purple, Colors.blueAccent],
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          stops: [0.4, 0.7],
+          tileMode: TileMode.clamp,
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: const Padding(
+            padding: EdgeInsets.only(top: 10, right: 5, left: 5),
+            child: PhotoListWidget()),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const CameraPage()));
+          },
+          backgroundColor: Colors.grey,
+          child: const Icon(Icons.add_a_photo),
+        ),
       ),
     );
   }
@@ -35,23 +48,40 @@ class _PhotoListWidgetState extends ConsumerState<PhotoListWidget> {
   @override
   Widget build(BuildContext context) {
     var _allPhotos = ref.watch(photoAlbumProvider);
+    _allPhotos.sort(((a, b) => a.photoTakenDate.compareTo(b.photoTakenDate)));
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 150,
-          childAspectRatio: 1 / 2,
+          maxCrossAxisExtent: 250,
+          childAspectRatio: 0.6,
           crossAxisSpacing: 20,
           mainAxisSpacing: 20),
       itemCount: _allPhotos.length,
       itemBuilder: (BuildContext ctx, index) {
         return FocusedMenuHolder(
-          child: Container(
-            alignment: Alignment.center,
-            child: Image.file(
-              _allPhotos[index].image,
-              fit: BoxFit.fill,
-            ),
-            decoration: BoxDecoration(
-                color: Colors.amber, borderRadius: BorderRadius.circular(15)),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: const SizedBox(),
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: Image.file(_allPhotos[index].image,
+                                fit: BoxFit.cover)
+                            .image,
+                      ),
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(15)),
+                ),
+              ),
+              Expanded(
+                  flex: 1,
+                  child: Text(
+                    _allPhotos[index].title,
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
+                  ))
+            ],
           ),
           onPressed: () {},
           menuItems: <FocusedMenuItem>[
