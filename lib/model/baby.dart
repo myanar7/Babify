@@ -5,8 +5,8 @@ class Baby {
   String photoPath;
   String name;
   DateTime birthday; // get age using AgeCalculator.age(birthday)
-  int height;
-  int weight;
+  double height;
+  double weight;
 
   Baby({
     required this.id,
@@ -31,5 +31,13 @@ class Baby {
         birthday: birthday,
         height: height,
         weight: weight);
+  }
+  void setBaby(Baby baby) {
+    id = baby.id;
+    photoPath = baby.photoPath;
+    name = baby.name;
+    birthday = baby.birthday;
+    height = baby.height;
+    weight = baby.weight;
   }
 }

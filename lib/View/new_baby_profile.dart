@@ -6,15 +6,16 @@ import 'package:flutter_application_1/providers/all_providers.dart';
 import 'package:flutter_application_1/providers/baby_profile_manager.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
 import 'package:flutter_application_1/widget/appbar_widget.dart';
+import 'package:flutter_application_1/model/baby_account.dart';
 
-class NewBabyProfilePage extends StatefulWidget {
+class NewBabyProfilePage extends ConsumerStatefulWidget {
   const NewBabyProfilePage({Key? key}) : super(key: key);
 
   @override
-  _NewBabyProfilePageState createState() => _NewBabyProfilePageState();
+  ConsumerState<NewBabyProfilePage> createState() => _NewBabyProfilePageState();
 }
 
-class _NewBabyProfilePageState extends State<NewBabyProfilePage> {
+class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
   // One TextEditingController for each form input:
 
   final nameController = TextEditingController();
@@ -150,13 +151,14 @@ class _NewBabyProfilePageState extends State<NewBabyProfilePage> {
               'https://images.pexels.com/photos/1556706/pexels-photo-1556706.jpeg?cs=srgb&dl=pexels-daniel-reche-1556706.jpg&fm=jpg',
           name: nameController.text,
           birthday: selectedDate,
-          height: int.parse(heightController.text),
-          weight: int.parse(weightController.text));
+          height: double.parse(heightController.text),
+          weight: double.parse(weightController.text));
 
       //print(newBaby.name);
       // Pop the page off the route stack and pass the new
       // dog back to wherever this page was created.
 
+      ref.read(babyProfileProvider.notifier).addBabyProfile(newBaby);
       Navigator.push(
           context,
           MaterialPageRoute(

@@ -1,48 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/View/new_baby_profile.dart';
 import 'package:flutter_application_1/model/baby.dart';
-import 'package:flutter_application_1/widget/appbar_widget.dart';
 import 'package:flutter_application_1/widget/profile_widget.dart';
 import 'package:age_calculator/age_calculator.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
-import 'package:flutter_application_1/providers/baby_profile_manager.dart';
+// ignore: implementation_imports
 import 'package:flutter_riverpod/src/consumer.dart';
+import 'package:flutter_application_1/View/account_selector.dart';
 
-class BabyProfilePage extends StatefulWidget {
-  final Baby baby;
+class BabyProfilePage extends ConsumerStatefulWidget {
+  late final Baby baby;
 
-  const BabyProfilePage({Key? key, required this.baby}) : super(key: key);
+  BabyProfilePage({Key? key, required this.baby}) : super(key: key);
 
   @override
-  _BabyProfilePageState createState() => _BabyProfilePageState();
+  ConsumerState<BabyProfilePage> createState() => _BabyProfilePageState();
 }
 
-class _BabyProfilePageState extends State<BabyProfilePage> {
-  List<Baby> initialBabies = [];
+class _BabyProfilePageState extends ConsumerState<BabyProfilePage> {
+  String resultText = "";
 
   Future _showNewBabyProfile() async {
     // push a new route like you did in the last section
-    Baby baby = await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return NewBabyProfilePage();
-        },
-      ),
-    );
-    // A null check, to make sure that the user didn't abandon the form.
-
-    if (baby.name != null) {
-      // Add a newDog to our mock dog array.
-      setState(() => initialBabies.add(baby));
-      //ref(babyProfileProvider.notifier).addBabyProfile(baby);
-      print(initialBabies);
-    }
+    Baby baby = await Navigator.of(context).push(MaterialPageRoute(
+      builder: (BuildContext context) {
+        return const NewBabyProfilePage();
+      },
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
+    var _allBabies = ref.watch(babyProfileProvider);
+    List accountList = createBabyAccountList(_allBabies);
+
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 227, 233, 236),
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: const Text('Profile page'),
       ),
       body: ListView(
@@ -54,7 +49,51 @@ class _BabyProfilePageState extends State<BabyProfilePage> {
           ),
           buildName(),
           buildInfo(),
-          IconButton(icon: Icon(Icons.add), onPressed: _showNewBabyProfile),
+
+          //IconButton(icon: Icon(Icons.add), onPressed: _showNewBabyProfile),
+          Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(16),
+                child: Text(resultText),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  showAccountSelectorSheet(
+                    context: context,
+                    accountList: accountList,
+                    isSheetDismissible: false, //Optional
+                    initiallySelectedIndex: 2, //Optional
+                    hideSheetOnItemTap: true,
+                    showAddAccountOption: true, //Optional
+                    backgroundColor: Colors.indigo, //Optional
+                    arrowColor: Colors.white, //Optional
+                    unselectedRadioColor: Colors.white, //Optional
+                    selectedRadioColor: Colors.amber, //Optional
+                    unselectedTextColor: Colors.white, //Optional
+                    selectedTextColor: Colors.amber, //Optional
+                    //Optional
+                    tapCallback: (index) {
+                      setState(() {
+                        widget.baby.setBaby(_allBabies[index]);
+                      });
+                    },
+                    //Optional
+                    addAccountTapCallback: () {
+                      setState(() {
+                        resultText = "Add account clicked";
+                        _showNewBabyProfile();
+                      });
+                      print(resultText);
+                    },
+                  );
+                },
+                child: Text("Select Baby"),
+              ),
+            ],
+          ))
         ],
       ),
     );
@@ -90,4 +129,12 @@ class _BabyProfilePageState extends State<BabyProfilePage> {
           ],
         ),
       );
+
+  List createBabyAccountList(var _allBabies) {
+    List<Baby> accountList = [];
+    for (int i = 0; i < _allBabies.length; i++) {
+      accountList.add(_allBabies[i]);
+    }
+    return accountList;
+  }
 }
