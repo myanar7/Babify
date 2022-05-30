@@ -5,6 +5,7 @@ import 'package:flutter_application_1/model/my_timer.dart';
 import 'package:flutter_application_1/model/sleep_activity.dart';
 import 'package:flutter_application_1/model/timer_activity.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
+import 'package:flutter_application_1/services/api_controller.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -30,7 +31,7 @@ class _SleepPageState extends ConsumerState<TimerPage> {
   var _dateController = true;
   var _controller = false;
   Color color = Color.fromARGB(255, 107, 195, 108);
-
+  late TimerActivityType type;
   @override
   void initState() {
     super.initState();
@@ -38,6 +39,7 @@ class _SleepPageState extends ConsumerState<TimerPage> {
     switch (widget.activity) {
       case 'sleep':
         activity = 'sleep';
+        type = TimerActivityType.sleepActivity;
         timerActivity = SleepActivity(
             id: const Uuid().v4(),
             startTime: startTime,
@@ -47,6 +49,7 @@ class _SleepPageState extends ConsumerState<TimerPage> {
         break;
       case 'tummy':
         activity = 'tummy';
+        type = TimerActivityType.tummyActivity;
         color = Color.fromARGB(255, 100, 158, 205);
         timerActivity = TummyActivity(
             id: const Uuid().v4(),
@@ -56,6 +59,11 @@ class _SleepPageState extends ConsumerState<TimerPage> {
             note: provNote);
         break;
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -172,11 +180,11 @@ class _SleepPageState extends ConsumerState<TimerPage> {
     noteDialog(context);
     DatePicker.showDateTimePicker(context, onConfirm: (time) {
       timerActivity.startTime = time;
-      DatePicker.showDateTimePicker(context, onConfirm: ((tim) {
+      DatePicker.showDateTimePicker(context, onConfirm: ((tim) async {
         timerActivity.finishTime = tim;
         timerActivity.second = findMinute();
         timerActivity.note = provNote;
-        ref.read(timerActivityProvider.notifier).addActivity(timerActivity);
+        await ApiController.postTimerActivity(ref, timerActivity, type);
       }));
     });
   }
@@ -186,13 +194,13 @@ class _SleepPageState extends ConsumerState<TimerPage> {
       icon: const Icon(Icons.stop_circle),
       iconSize: 100,
       color: Colors.white,
-      onPressed: () {
+      onPressed: () async {
         timerActivity.second = timer.duration.inSeconds;
         clearTimer();
         timerActivity.finishTime = DateTime.now();
         timerActivity.startTime = startTime;
         timerActivity.note = provNote;
-        ref.read(timerActivityProvider.notifier).addActivity(timerActivity);
+        await ApiController.postTimerActivity(ref, timerActivity, type);
       },
     );
   }
