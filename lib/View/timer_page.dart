@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/my_timer.dart';
 import 'package:flutter_application_1/model/sleep_activity.dart';
 import 'package:flutter_application_1/model/timer_activity.dart';
-import 'package:flutter_application_1/providers/all_providers.dart';
 import 'package:flutter_application_1/services/api_controller.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -30,7 +29,7 @@ class _SleepPageState extends ConsumerState<TimerPage> {
   late TimerActivity timerActivity;
   var _dateController = true;
   var _controller = false;
-  Color color = Color.fromARGB(255, 107, 195, 108);
+  Color color = const Color.fromARGB(255, 107, 195, 108);
   late TimerActivityType type;
   @override
   void initState() {
@@ -50,7 +49,7 @@ class _SleepPageState extends ConsumerState<TimerPage> {
       case 'tummy':
         activity = 'tummy';
         type = TimerActivityType.tummyActivity;
-        color = Color.fromARGB(255, 100, 158, 205);
+        color = const Color.fromARGB(255, 100, 158, 205);
         timerActivity = TummyActivity(
             id: const Uuid().v4(),
             startTime: startTime,
@@ -82,27 +81,41 @@ class _SleepPageState extends ConsumerState<TimerPage> {
               icon: const Icon(Icons.delete))
         ],
       ),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-            child: Text(
-              timer.hour + ':' + timer.minutes + ':' + timer.seconds,
-              style: const TextStyle(fontSize: 100, color: Colors.white),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                child: Text(
+                  timer.hour + ':' + timer.minutes + ':' + timer.seconds,
+                  style: const TextStyle(fontSize: 100, color: Colors.white),
+                ),
+              ),
             ),
-          ),
-          Container(
-              child: setButton(context),
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 250)),
-          addNoteButton(context),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(child: _controller ? stopButton() : startButton()),
-              cancelButton(),
-            ],
-          ),
-        ],
+            Expanded(
+              flex: 1,
+              child: Container(
+                  child: setButton(context),
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 250)),
+            ),
+            Expanded(
+              flex: 1,
+              child: addNoteButton(context),
+            ),
+            Expanded(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(child: _controller ? stopButton() : startButton()),
+                  cancelButton(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

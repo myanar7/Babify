@@ -12,7 +12,7 @@ class EntartainmentPage extends StatefulWidget {
 }
 
 class _EntartainmentPageState extends State<EntartainmentPage> {
-  late Channel _channel;
+  Channel? _channel;
   bool _isLoading = false;
 
   @override
@@ -49,7 +49,7 @@ class _EntartainmentPageState extends State<EntartainmentPage> {
           CircleAvatar(
             backgroundColor: Colors.white,
             radius: 35.0,
-            backgroundImage: NetworkImage(_channel.profilePictureUrl),
+            backgroundImage: NetworkImage(_channel!.profilePictureUrl),
           ),
           SizedBox(width: 12.0),
           Expanded(
@@ -58,7 +58,7 @@ class _EntartainmentPageState extends State<EntartainmentPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  _channel.title,
+                  _channel!.title,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20.0,
@@ -67,7 +67,7 @@ class _EntartainmentPageState extends State<EntartainmentPage> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  '${_channel.subscriberCount} subscribers',
+                  '${_channel!.subscriberCount} subscribers',
                   style: TextStyle(
                     color: Colors.grey[600],
                     fontSize: 16.0,
@@ -130,10 +130,10 @@ class _EntartainmentPageState extends State<EntartainmentPage> {
   _loadMoreVideos() async {
     _isLoading = true;
     List<Video> moreVideos = await YtAPIService.instance
-        .fetchVideosFromPlaylist(playlistId: _channel.uploadPlaylistId);
-    List<Video> allVideos = _channel.videos..addAll(moreVideos);
+        .fetchVideosFromPlaylist(playlistId: _channel!.uploadPlaylistId);
+    List<Video> allVideos = _channel!.videos..addAll(moreVideos);
     setState(() {
-      _channel.videos = allVideos;
+      _channel!.videos = allVideos;
     });
     _isLoading = false;
   }
@@ -148,7 +148,8 @@ class _EntartainmentPageState extends State<EntartainmentPage> {
           ? NotificationListener<ScrollNotification>(
               onNotification: (ScrollNotification scrollDetails) {
                 if (!_isLoading &&
-                    _channel.videos.length != int.parse(_channel.videoCount) &&
+                    _channel!.videos.length !=
+                        int.parse(_channel!.videoCount) &&
                     scrollDetails.metrics.pixels ==
                         scrollDetails.metrics.maxScrollExtent) {
                   _loadMoreVideos();
@@ -156,12 +157,12 @@ class _EntartainmentPageState extends State<EntartainmentPage> {
                 return false;
               },
               child: ListView.builder(
-                itemCount: 1 + _channel.videos.length,
+                itemCount: 1 + _channel!.videos.length,
                 itemBuilder: (BuildContext context, int index) {
                   if (index == 0) {
                     return _buildProfileInfo();
                   }
-                  Video video = _channel.videos[index - 1];
+                  Video video = _channel!.videos[index - 1];
                   return _buildVideo(video);
                 },
               ),
