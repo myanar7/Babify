@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/model/bath_activity.dart';
+import 'package:flutter_application_1/model/breastfeeding_activity.dart';
 import 'package:flutter_application_1/model/my_timer.dart';
 import 'package:flutter_application_1/model/sleep_activity.dart';
 import 'package:flutter_application_1/model/timer_activity.dart';
+import 'package:flutter_application_1/model/walk_activity.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,10 +18,10 @@ class TimerPage extends ConsumerStatefulWidget {
   const TimerPage({Key? key, required this.activity}) : super(key: key);
 
   @override
-  ConsumerState<TimerPage> createState() => _SleepPageState();
+  ConsumerState<TimerPage> createState() => _TimerPageState();
 }
 
-class _SleepPageState extends ConsumerState<TimerPage> {
+class _TimerPageState extends ConsumerState<TimerPage> {
   String activity = '';
   int second = 0;
   String note = '';
@@ -26,7 +29,6 @@ class _SleepPageState extends ConsumerState<TimerPage> {
   MyTimer timer = MyTimer();
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
-  late TimerActivity timerActivity;
   var _dateController = true;
   var _controller = false;
   Color color = Color.fromARGB(255, 107, 195, 108);
@@ -38,23 +40,23 @@ class _SleepPageState extends ConsumerState<TimerPage> {
     switch (widget.activity) {
       case 'sleep':
         activity = 'sleep';
-        timerActivity = SleepActivity(
-            id: const Uuid().v4(),
-            startTime: startTime,
-            finishTime: endTime,
-            second: second,
-            note: provNote);
         break;
       case 'tummy':
         activity = 'tummy';
         color = Color.fromARGB(255, 100, 158, 205);
-        timerActivity = TummyActivity(
-            id: const Uuid().v4(),
-            startTime: startTime,
-            finishTime: endTime,
-            second: second,
-            note: provNote);
         break;
+      case 'walk':
+        activity = 'walk';
+        color = Color.fromARGB(255, 205, 87, 87);
+      break;
+      case 'bath':
+        activity = 'bath';
+        color = Color.fromARGB(255, 0, 140, 255);
+      break;
+      case 'breastfeeding':
+        activity = 'breastfeeding';
+        color = Color.fromARGB(255, 234, 254, 155);
+      break;      
     }
   }
 
@@ -70,31 +72,46 @@ class _SleepPageState extends ConsumerState<TimerPage> {
           IconButton(
               onPressed: () {
                 clearTimer();
+                Navigator.of(context).pop();
               },
               icon: const Icon(Icons.delete))
         ],
       ),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-            child: Text(
-              timer.hour + ':' + timer.minutes + ':' + timer.seconds,
-              style: const TextStyle(fontSize: 100, color: Colors.white),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Container(
+                padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                child: Text(
+                  timer.hour + ':' + timer.minutes + ':' + timer.seconds,
+                  style: const TextStyle(fontSize: 80, color: Colors.white),
+                ),
+              ),
             ),
-          ),
-          Container(
-              child: setButton(context),
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 250)),
-          addNoteButton(context),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(child: _controller ? stopButton() : startButton()),
-              cancelButton(),
-            ],
-          ),
-        ],
+            Expanded(
+              flex: 1,
+              child: Container(
+                  child: setButton(context),
+                  ),
+            ),
+            Expanded(
+              flex: 1,
+              child: addNoteButton(context),
+            ),
+            Expanded(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(child: _controller ? stopButton() : startButton()),
+                  cancelButton(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -112,9 +129,11 @@ class _SleepPageState extends ConsumerState<TimerPage> {
         onPressed: () {
           noteDialog(context);
         },
-        child: const Text(
-          "Add note",
-          style: TextStyle(fontSize: 18),
+        child: const Center(
+          child:  Text(
+            "Add note",
+            style: TextStyle(fontSize: 18),
+          ),
         ),
       ),
     );
@@ -161,24 +180,48 @@ class _SleepPageState extends ConsumerState<TimerPage> {
           onPressed: () {
             setActivity(context);
           },
-          child: Text(
-            'Set ' + activity,
-            style: const TextStyle(fontSize: 16),
+          child: Center(
+            child: Text(
+              'Set ' + activity,
+              style: const TextStyle(fontSize: 18),
+            ),
           )),
     );
   }
 
   void setActivity(BuildContext context) {
-    noteDialog(context);
+    
     DatePicker.showDateTimePicker(context, onConfirm: (time) {
-      timerActivity.startTime = time;
       DatePicker.showDateTimePicker(context, onConfirm: ((tim) {
-        timerActivity.finishTime = tim;
-        timerActivity.second = findMinute();
-        timerActivity.note = provNote;
-        ref.read(timerActivityProvider.notifier).addActivity(timerActivity);
+        objectCreater(time, tim, findMinute());
+        Navigator.of(context).pop();
       }));
     });
+  }
+
+  void objectCreater(DateTime time, DateTime tim, int second) {
+    switch(widget.activity){
+      case "sleep":
+      SleepActivity sleepActivity = SleepActivity(const Uuid().v4(), time, tim, second, provNote);
+      ref.read(timerActivityProvider.notifier).addActivity(sleepActivity);
+      break;         
+      case "tummy":
+      TummyActivity tummyActivity = TummyActivity(const Uuid().v4(), time, tim, second, provNote);
+      ref.read(timerActivityProvider.notifier).addActivity(tummyActivity);
+      break;
+      case "breastfeeding":
+      BreastFeedingActivity breastFeedingActivity = BreastFeedingActivity(const Uuid().v4(), time, tim, second, provNote);
+      ref.read(timerActivityProvider.notifier).addActivity(breastFeedingActivity);
+      break;
+      case "walk":
+      WalkActivity walkActivity = WalkActivity(const Uuid().v4(), time, tim, second, provNote);
+      ref.read(timerActivityProvider.notifier).addActivity(walkActivity);
+      break;
+      case "bath":
+      BathActivity bathActivity = BathActivity(const Uuid().v4(), time, tim, second, provNote);
+      ref.read(timerActivityProvider.notifier).addActivity(bathActivity);
+      break;
+    }
   }
 
   IconButton cancelButton() {
@@ -187,12 +230,10 @@ class _SleepPageState extends ConsumerState<TimerPage> {
       iconSize: 100,
       color: Colors.white,
       onPressed: () {
-        timerActivity.second = timer.duration.inSeconds;
+        objectCreater(startTime, DateTime.now(), timer.duration.inSeconds);
         clearTimer();
-        timerActivity.finishTime = DateTime.now();
-        timerActivity.startTime = startTime;
-        timerActivity.note = provNote;
-        ref.read(timerActivityProvider.notifier).addActivity(timerActivity);
+        Navigator.of(context).pop();
+        
       },
     );
   }

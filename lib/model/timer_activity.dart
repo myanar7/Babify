@@ -1,8 +1,8 @@
 
-abstract class TimerActivity{
+ class Activity{
   late String id;
   late DateTime startTime;
-  late DateTime finishTime;
-  late int second;
-  late String note;
+  late  String note;
+
+  Activity({required this.id,required this.startTime,required this.note});
 }

@@ -78,6 +78,7 @@ class _BabyProfilePageState extends ConsumerState<BabyProfilePage> {
                     tapCallback: (index) {
                       setState(() {
                         widget.baby.setBaby(_allBabies[index]);
+
                       });
                     },
                     //Optional
