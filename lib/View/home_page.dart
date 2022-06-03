@@ -72,83 +72,117 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     return Scaffold(
         body: ListView(
-      children: [
-        IconButton(
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => sleepActivity));
-          },
-          icon: const Icon(Icons.add),
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => tummyActivity));
-          },
-          icon: const Icon(Icons.add),
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => breastFeedingActivity));
-          },
-          icon: const Icon(Icons.add),
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => walkActivity));
-          },
-          icon: const Icon(Icons.add),
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => bathActivity));
-          },
-          icon: const Icon(Icons.add),
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => bottleMilk));
-          },
-          icon: const Icon(Icons.add),
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => pumping));
-          },
-          icon: const Icon(Icons.add),
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => diaper));
-          },
-          icon: const Icon(Icons.add),
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => medication));
-          },
-          icon: const Icon(Icons.add),
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => vaccination));
-          },
-          icon: const Icon(Icons.add),
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => measure));
-          },
-          icon: const Icon(Icons.add),
+      children: <Widget>[
+        GridView.count(
+          shrinkWrap: true,
+          primary: false,
+          padding: const EdgeInsets.all(20),
+          crossAxisSpacing: 25,
+          mainAxisSpacing: 25,
+          crossAxisCount: 3,
+          children: [
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => sleepActivity));
+              },
+              icon: Image.asset("assets/icons/sleep.png"),
+            ),
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => tummyActivity));
+              },
+              icon: Image.asset("assets/icons/tummy.png"),
+            ),
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => breastFeedingActivity));
+              },
+              icon: Image.asset("assets/icons/breastfeeding.png"),
+            ),
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => walkActivity));
+              },
+              icon: Image.asset("assets/icons/walk.png"),
+            ),
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => bathActivity));
+              },
+              icon: Image.asset("assets/icons/bath.png"),
+            ),
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => bottleMilk));
+              },
+              icon: Image.asset("assets/icons/milk.png"),
+            ),
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => pumping));
+              },
+              icon: Image.asset("assets/icons/pumping.png"),
+            ),
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => diaper));
+              },
+              icon: Image.asset("assets/icons/diaper.png"),
+            ),
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => medication));
+              },
+              icon: Image.asset("assets/icons/medication.png"),
+            ),
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => vaccination));
+              },
+              icon: Image.asset("assets/icons/vaccination.png"),
+              color: Colors.white,
+              iconSize: 100,
+            ),
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => measure));
+              },
+              icon: Image.asset("assets/icons/measure.png"),
+            ),
+          ],
         ),
         ListView.builder(
           shrinkWrap: true,
