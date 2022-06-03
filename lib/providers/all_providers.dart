@@ -13,7 +13,7 @@ final photoAlbumProvider =
 });
 
 final timerActivityProvider =
-    StateNotifierProvider<TimerActivityManager, List<TimerActivity>>((ref) {
+    StateNotifierProvider<TimerActivityManager, List<Activity>>((ref) {
   return TimerActivityManager([]);
 });
 final babyProfileProvider =

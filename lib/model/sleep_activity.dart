@@ -1,14 +1,15 @@
 import 'package:flutter_application_1/model/timer_activity.dart';
 import 'package:uuid/uuid.dart';
 
-class SleepActivity extends TimerActivity{
-  String id;
-  DateTime startTime;
+class SleepActivity extends Activity{
+
   DateTime finishTime;
   int second;
-  String note;
+  
 
-  SleepActivity({required this.id, required this.startTime, required this.finishTime, required this.second, required this.note });
+  SleepActivity(String id, DateTime startTime,  this.finishTime, this.second,  String note):super(id:id, startTime: startTime, note: note){
+
+  } 
 
  
 

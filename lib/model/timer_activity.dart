@@ -1,13 +1,14 @@
 import 'package:flutter_application_1/model/sleep_activity.dart';
 import 'package:flutter_application_1/model/tummy_activity.dart';
 
-class TimerActivity {
+ class Activity{
   late String id;
   late DateTime startTime;
-  late DateTime finishTime;
-  late int second;
-  late String note;
+  late  String note;
 
+  Activity({required this.id,required this.startTime,required this.note});
+  
+  /*
   TimerActivity();
 
   factory TimerActivity.fromJson(Map<String, dynamic> json) {
@@ -29,4 +30,6 @@ class TimerActivity {
           note: json['note']);
     }
   }
+}
+  */
 }
