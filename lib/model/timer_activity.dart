@@ -17,7 +17,7 @@ import 'package:flutter_application_1/model/tummy_activity.dart';
       return SleepActivity(
           id: json['id'].toString(),
           startTime: DateTime.parse(json['startTime']),
-          finishTime: DateTime.parse(json['endTime']),
+          finishTime: DateTime.parse(json['finishTime']),
           second: json['seconds'],
           note: json['note']);
     } else {
@@ -25,7 +25,7 @@ import 'package:flutter_application_1/model/tummy_activity.dart';
       return TummyActivity(
           id: json['id'].toString(),
           startTime: DateTime.parse(json['startTime']),
-          finishTime: DateTime.parse(json['endTime']),
+          finishTime: DateTime.parse(json['finishTime']),
           second: json['seconds'],
           note: json['note']);
     }
