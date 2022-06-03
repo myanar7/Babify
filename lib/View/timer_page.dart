@@ -5,7 +5,6 @@ import 'package:flutter_application_1/model/bath_activity.dart';
 import 'package:flutter_application_1/model/breastfeeding_activity.dart';
 import 'package:flutter_application_1/model/my_timer.dart';
 import 'package:flutter_application_1/model/sleep_activity.dart';
-import 'package:flutter_application_1/model/timer_activity.dart';
 import 'package:flutter_application_1/model/walk_activity.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
 import 'package:flutter_application_1/services/api_controller.dart';
@@ -44,20 +43,20 @@ class _TimerPageState extends ConsumerState<TimerPage> {
         break;
       case 'tummy':
         activity = 'tummy';
-        color = Color.fromARGB(255, 100, 158, 205);
+        color = const Color.fromARGB(255, 100, 158, 205);
         break;
       case 'walk':
         activity = 'walk';
-        color = Color.fromARGB(255, 205, 87, 87);
-      break;
+        color = const Color.fromARGB(255, 205, 87, 87);
+        break;
       case 'bath':
         activity = 'bath';
-        color = Color.fromARGB(255, 0, 140, 255);
-      break;
+        color = const Color.fromARGB(255, 0, 140, 255);
+        break;
       case 'breastfeeding':
         activity = 'breastfeeding';
-        color = Color.fromARGB(255, 234, 254, 155);
-      break;      
+        color = const Color.fromARGB(255, 234, 254, 155);
+        break;
     }
   }
 
@@ -99,8 +98,8 @@ class _TimerPageState extends ConsumerState<TimerPage> {
             Expanded(
               flex: 1,
               child: Container(
-                  child: setButton(context),
-                  ),
+                child: setButton(context),
+              ),
             ),
             Expanded(
               flex: 1,
@@ -136,7 +135,7 @@ class _TimerPageState extends ConsumerState<TimerPage> {
           noteDialog(context);
         },
         child: const Center(
-          child:  Text(
+          child: Text(
             "Add note",
             style: TextStyle(fontSize: 18),
           ),
@@ -196,43 +195,46 @@ class _TimerPageState extends ConsumerState<TimerPage> {
   }
 
   void setActivity(BuildContext context) {
-    
     DatePicker.showDateTimePicker(context, onConfirm: (time) {
-      DatePicker.showDateTimePicker(context, onConfirm: ((tim) {
-        objectCreater(time, tim, findMinute());
+      DatePicker.showDateTimePicker(context, onConfirm: ((tim) async {
+        await objectCreater(time, tim, findMinute());
         Navigator.of(context).pop();
-      //timerActivity.startTime = time;
-      //DatePicker.showDateTimePicker(context, onConfirm: ((tim) async {
-        //timerActivity.finishTime = tim;
-        //timerActivity.second = findMinute();
-        //timerActivity.note = provNote;
-        //await ApiController.postTimerActivity(ref, timerActivity, type);
       }));
     });
   }
 
-  void objectCreater(DateTime time, DateTime tim, int second) {
-    switch(widget.activity){
+  Future<void> objectCreater(DateTime time, DateTime tim, int second) async {
+    switch (widget.activity) {
       case "sleep":
-      SleepActivity sleepActivity = SleepActivity(const Uuid().v4(), time, tim, second, provNote);
-      ref.read(timerActivityProvider.notifier).addActivity(sleepActivity);
-      break;         
+        SleepActivity sleepActivity =
+            SleepActivity(const Uuid().v4(), time, tim, second, provNote);
+        type = TimerActivityType.sleepActivity;
+        await ApiController.postTimerActivity(ref, sleepActivity, type);
+        break;
       case "tummy":
-      TummyActivity tummyActivity = TummyActivity(const Uuid().v4(), time, tim, second, provNote);
-      ref.read(timerActivityProvider.notifier).addActivity(tummyActivity);
-      break;
+        TummyActivity tummyActivity =
+            TummyActivity(const Uuid().v4(), time, tim, second, provNote);
+        type = TimerActivityType.tummyActivity;
+        await ApiController.postTimerActivity(ref, tummyActivity, type);
+        break;
       case "breastfeeding":
-      BreastFeedingActivity breastFeedingActivity = BreastFeedingActivity(const Uuid().v4(), time, tim, second, provNote);
-      ref.read(timerActivityProvider.notifier).addActivity(breastFeedingActivity);
-      break;
+        BreastFeedingActivity breastFeedingActivity = BreastFeedingActivity(
+            const Uuid().v4(), time, tim, second, provNote);
+        type = TimerActivityType.breastFeedingActivity;
+        await ApiController.postTimerActivity(ref, breastFeedingActivity, type);
+        break;
       case "walk":
-      WalkActivity walkActivity = WalkActivity(const Uuid().v4(), time, tim, second, provNote);
-      ref.read(timerActivityProvider.notifier).addActivity(walkActivity);
-      break;
+        WalkActivity walkActivity =
+            WalkActivity(const Uuid().v4(), time, tim, second, provNote);
+        type = TimerActivityType.walkActivity;
+        await ApiController.postTimerActivity(ref, walkActivity, type);
+        break;
       case "bath":
-      BathActivity bathActivity = BathActivity(const Uuid().v4(), time, tim, second, provNote);
-      ref.read(timerActivityProvider.notifier).addActivity(bathActivity);
-      break;
+        BathActivity bathActivity =
+            BathActivity(const Uuid().v4(), time, tim, second, provNote);
+        type = TimerActivityType.bathActivity;
+        await ApiController.postTimerActivity(ref, bathActivity, type);
+        break;
     }
   }
 
@@ -241,18 +243,11 @@ class _TimerPageState extends ConsumerState<TimerPage> {
       icon: const Icon(Icons.stop_circle),
       iconSize: 100,
       color: Colors.white,
-      onPressed: () {
-        objectCreater(startTime, DateTime.now(), timer.duration.inSeconds);
+      onPressed: () async {
+        await objectCreater(
+            startTime, DateTime.now(), timer.duration.inSeconds);
         clearTimer();
         Navigator.of(context).pop();
-
-      //onPressed: () async {
-        //timerActivity.second = timer.duration.inSeconds;
-        //clearTimer();
-        //timerActivity.finishTime = DateTime.now();
-        //timerActivity.startTime = startTime;
-       //timerActivity.note = provNote;
-        //await ApiController.postTimerActivity(ref, timerActivity, type);
       },
     );
   }

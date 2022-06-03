@@ -1,4 +1,5 @@
 import 'package:flutter_application_1/model/measure_activity.dart';
+import 'package:flutter_application_1/services/api_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -35,27 +36,32 @@ class _HealthPageState extends ConsumerState<HealthPage> {
   var colorController2 = false;
   String activity = '';
   String choice1 = ' ';
-  String choice2= '';
-  
-  
+  String choice2 = '';
+
   @override
   void initState() {
-    
     super.initState();
     activity = widget.activity;
-    switch(activity){
+    switch (activity) {
       case 'Medication':
-      choice1 = 'ml';
-      choice2 = 'dose';
-      break;
+        choice1 = 'ml';
+        choice2 = 'dose';
+        break;
       case 'Vaccination':
-      color = const Color.fromARGB(255, 71, 208, 235);
-      break;
+        color = const Color.fromARGB(255, 71, 208, 235);
+        break;
       case 'Measure':
-      color = Color.fromARGB(255, 244, 255, 183);
-      break;
+        color = Color.fromARGB(255, 244, 255, 183);
+        break;
     }
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,60 +80,68 @@ class _HealthPageState extends ConsumerState<HealthPage> {
       body: SafeArea(
         child: Column(
           children: [
-            activity == 'Medication'?
-            Expanded(flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  choiceButton(choice1),
-                  choiceButton2(choice2),
-                ],
-              ),
-            ): const SizedBox(),
-
-            
+            activity == 'Medication'
+                ? Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        choiceButton(choice1),
+                        choiceButton2(choice2),
+                      ],
+                    ),
+                  )
+                : const SizedBox(),
             Expanded(
               flex: 1,
               child: Container(
-                  child: setButton(context),
-                  ),
+                child: setButton(context),
+              ),
             ),
-            
             Expanded(
               flex: 2,
               child: Center(
                 child: Column(
                   children: [
                     Expanded(
-                    child: activity == 'Measure' ? SizedBox():
-                    Container(
-                        width: 200,
-                        child: inputField(context),
-                        ),),
+                      child: activity == 'Measure'
+                          ? SizedBox()
+                          : Container(
+                              width: 200,
+                              child: inputField(context),
+                            ),
+                    ),
                     Expanded(
-                    child: activity == 'Medication' ?
-                    Container(
-                        width: 150,
-                        child: inputField2(context),
-                        ):const SizedBox()),
+                        child: activity == 'Medication'
+                            ? Container(
+                                width: 150,
+                                child: inputField2(context),
+                              )
+                            : const SizedBox()),
                     Expanded(
-                    child: activity == 'Measure' ?
-                    Container(
-                        width: 150,
-                        child: inputField3(context),
-                        ):const SizedBox(),),
+                      child: activity == 'Measure'
+                          ? Container(
+                              width: 150,
+                              child: inputField3(context),
+                            )
+                          : const SizedBox(),
+                    ),
                     Expanded(
-                    child: activity == 'Measure' ?
-                    Container(
-                        width: 150,
-                        child: inputField4(context),
-                        ):const SizedBox(),),
+                      child: activity == 'Measure'
+                          ? Container(
+                              width: 150,
+                              child: inputField4(context),
+                            )
+                          : const SizedBox(),
+                    ),
                     Expanded(
-                    child: activity == 'Measure' ?
-                    Container(
-                        width: 150,
-                        child: inputField5(context),
-                        ):const SizedBox(),),
+                      child: activity == 'Measure'
+                          ? Container(
+                              width: 150,
+                              child: inputField5(context),
+                            )
+                          : const SizedBox(),
+                    ),
                   ],
                 ),
               ),
@@ -139,27 +153,21 @@ class _HealthPageState extends ConsumerState<HealthPage> {
             Expanded(
               flex: 1,
               child: Container(
-                  child: okButton(),
-                  ),
+                child: okButton(),
+              ),
             ),
           ],
         ),
       ),
     );
-    
-    
-    
-    
-    
   }
 
   choiceButton(String input) {
-      return Center(
+    return Center(
       child: OutlinedButton(
-          
           style: OutlinedButton.styleFrom(
             fixedSize: const Size(100, 50),
-            backgroundColor: colorController ? Colors.black: color,
+            backgroundColor: colorController ? Colors.black : color,
             side: (const BorderSide(color: Colors.white)),
             primary: Colors.white,
             shape: const RoundedRectangleBorder(
@@ -178,16 +186,14 @@ class _HealthPageState extends ConsumerState<HealthPage> {
             ),
           )),
     );
-
   }
 
   choiceButton2(String input) {
-      return Center(
+    return Center(
       child: OutlinedButton(
-          
           style: OutlinedButton.styleFrom(
             fixedSize: const Size(100, 50),
-            backgroundColor: colorController2 ? Colors.black: color,
+            backgroundColor: colorController2 ? Colors.black : color,
             side: (const BorderSide(color: Colors.white)),
             primary: Colors.white,
             shape: const RoundedRectangleBorder(
@@ -206,7 +212,6 @@ class _HealthPageState extends ConsumerState<HealthPage> {
             ),
           )),
     );
-
   }
 
   addNoteButton(BuildContext context) {
@@ -232,7 +237,7 @@ class _HealthPageState extends ConsumerState<HealthPage> {
   }
 
   setButton(BuildContext context) {
-     return Center(
+    return Center(
       child: OutlinedButton(
           style: OutlinedButton.styleFrom(
             fixedSize: const Size(120, 50),
@@ -253,107 +258,83 @@ class _HealthPageState extends ConsumerState<HealthPage> {
     );
   }
 
-  
-
- 
-
   inputField(BuildContext context) {
     return TextField(
-        keyboardType: TextInputType.text,
-        onChanged: (String value){
-          name = value;
-        },
-        decoration: const InputDecoration(
+      keyboardType: TextInputType.text,
+      onChanged: (String value) {
+        name = value;
+      },
+      decoration: const InputDecoration(
           hintText: 'Enter name',
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
-            
             borderRadius: BorderRadius.all(Radius.circular(18)),
-          )
-
-        ),
-      
+          )),
     );
   }
 
-    inputField2(BuildContext context) {
+  inputField2(BuildContext context) {
     return TextField(
-        keyboardType: TextInputType.number,
-        onChanged: (String value){
-          amount = value;
-        },
-        decoration: const InputDecoration(
+      keyboardType: TextInputType.number,
+      onChanged: (String value) {
+        amount = value;
+      },
+      decoration: const InputDecoration(
           hintText: 'Enter ',
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
-            
             borderRadius: BorderRadius.all(Radius.circular(18)),
-          )
-
-        ),
-      
+          )),
     );
   }
 
   inputField3(BuildContext context) {
     return TextField(
-        keyboardType: TextInputType.number,
-        onChanged: (String value){
-          weight = value;
-        },
-        decoration: const InputDecoration(
+      keyboardType: TextInputType.number,
+      onChanged: (String value) {
+        weight = value;
+      },
+      decoration: const InputDecoration(
           hintText: 'Enter weight -kg',
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
-            
             borderRadius: BorderRadius.all(Radius.circular(18)),
-          )
-
-        ),
-      
+          )),
     );
   }
 
   inputField4(BuildContext context) {
     return TextField(
-        keyboardType: TextInputType.number,
-        onChanged: (String value){
-          height = value;
-        },
-        decoration: const InputDecoration(
+      keyboardType: TextInputType.number,
+      onChanged: (String value) {
+        height = value;
+      },
+      decoration: const InputDecoration(
           hintText: 'Enter height -cm',
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
-            
             borderRadius: BorderRadius.all(Radius.circular(18)),
-          )
-
-        ),
-      
+          )),
     );
   }
 
-   inputField5(BuildContext context) {
+  inputField5(BuildContext context) {
     return TextField(
-        keyboardType: TextInputType.number,
-        onChanged: (String value){
-          head = value;
-        },
-        decoration: const InputDecoration(
+      keyboardType: TextInputType.number,
+      onChanged: (String value) {
+        head = value;
+      },
+      decoration: const InputDecoration(
           hintText: 'Enter head -cm',
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
-            
             borderRadius: BorderRadius.all(Radius.circular(18)),
-          )
-
-        ),
-      
+          )),
     );
   }
 
@@ -362,15 +343,15 @@ class _HealthPageState extends ConsumerState<HealthPage> {
       icon: const Icon(Icons.ac_unit),
       iconSize: 100,
       color: Colors.white,
-      onPressed: () {       
+      onPressed: () async {
         startTime = DateTime.now();
-        objectCreater();
-         Navigator.of(context).pop();
+        await objectCreater();
+        Navigator.of(context).pop();
       },
     );
   }
 
-    void noteDialog(BuildContext context) {
+  void noteDialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -399,31 +380,33 @@ class _HealthPageState extends ConsumerState<HealthPage> {
   }
 
   void setActivity(BuildContext context) {
-    DatePicker.showDateTimePicker(context, onConfirm: ((time) {
+    DatePicker.showDateTimePicker(context, onConfirm: ((time) async {
       startTime = time;
-      objectCreater();
+      await objectCreater();
       Navigator.of(context).pop();
-    }));   
-    
-    
-    
+    }));
   }
 
-  void objectCreater() {
-    switch(widget.activity){
+  Future<void> objectCreater() async {
+    switch (widget.activity) {
       case "Medication":
-      MedicationActivity medicationActivity = MedicationActivity(const Uuid().v4(), startTime, type, amount,name, provNote);
-      ref.read(timerActivityProvider.notifier).addActivity(medicationActivity);
-      break;
+        MedicationActivity medicationActivity = MedicationActivity(
+            const Uuid().v4(), startTime, type, amount, name, provNote);
+        await ApiController.postTimerActivity(
+            ref, medicationActivity, TimerActivityType.medicationActivity);
+        break;
       case "Vaccination":
-      VaccinationActivity vaccinationActivity = VaccinationActivity(const Uuid().v4(), startTime, name, provNote);
-      ref.read(timerActivityProvider.notifier).addActivity(vaccinationActivity);
-      break;    
+        VaccinationActivity vaccinationActivity =
+            VaccinationActivity(const Uuid().v4(), startTime, name, provNote);
+        await ApiController.postTimerActivity(
+            ref, vaccinationActivity, TimerActivityType.vaccinationActivity);
+        break;
       case "Measure":
-      MeasureActivity measureActivity = MeasureActivity(const Uuid().v4(), startTime, height, weight,head, provNote);
-      ref.read(timerActivityProvider.notifier).addActivity(measureActivity);
-      break;   
-  
+        MeasureActivity measureActivity = MeasureActivity(
+            const Uuid().v4(), startTime, height, weight, head, provNote);
+        await ApiController.postTimerActivity(
+            ref, measureActivity, TimerActivityType.measureActivity);
+        break;
     }
   }
 }
