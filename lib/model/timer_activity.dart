@@ -16,7 +16,7 @@ class TimerActivity {
       return SleepActivity(
           id: json['id'].toString(),
           startTime: DateTime.parse(json['startTime']),
-          finishTime: DateTime.parse(json['endTime']),
+          finishTime: DateTime.parse(json['finishTime']),
           second: json['seconds'],
           note: json['note']);
     } else {
@@ -24,7 +24,7 @@ class TimerActivity {
       return TummyActivity(
           id: json['id'].toString(),
           startTime: DateTime.parse(json['startTime']),
-          finishTime: DateTime.parse(json['endTime']),
+          finishTime: DateTime.parse(json['finishTime']),
           second: json['seconds'],
           note: json['note']);
     }
