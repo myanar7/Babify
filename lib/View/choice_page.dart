@@ -4,6 +4,7 @@ import 'package:flutter_application_1/model/bottlemilk_activity.dart';
 import 'package:flutter_application_1/model/medication_activity.dart';
 import 'package:flutter_application_1/model/pumping_activity.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
+import 'package:flutter_application_1/services/api_controller.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -30,31 +31,36 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
   Color color = Colors.amber;
   String activity = '';
   String choice1 = ' ';
-  String choice2= '';
-  
-  
+  String choice2 = '';
+
   @override
   void initState() {
-    
     super.initState();
     activity = widget.activity;
-    switch(activity){
+    switch (activity) {
       case 'Bottle milk':
-      choice1 = 'Formula';
-      choice2 = "Mom's milk";
-      break;
+        choice1 = 'Formula';
+        choice2 = "Mom's milk";
+        break;
       case 'Pumping':
-      choice1 = 'Left breast';
-      choice2 = 'Right breast';
-      color = const Color.fromARGB(255, 71, 208, 235);
-      break;
+        choice1 = 'Left breast';
+        choice2 = 'Right breast';
+        color = const Color.fromARGB(255, 71, 208, 235);
+        break;
       case 'Diaper':
-      choice1 = 'Pee';
-      choice2 = 'Poo';
-      color = const Color.fromARGB(255, 54, 218, 152);
-      break;
+        choice1 = 'Pee';
+        choice2 = 'Poo';
+        color = const Color.fromARGB(255, 54, 218, 152);
+        break;
     }
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +79,8 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
       body: SafeArea(
         child: Column(
           children: [
-            Expanded(flex: 1,
+            Expanded(
+              flex: 1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -82,22 +89,21 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
                 ],
               ),
             ),
-
-            
             Expanded(
               flex: 1,
               child: Container(
-                  child: setButton(context),
-                  ),
+                child: setButton(context),
+              ),
             ),
-            activity == 'Diaper' ?const SizedBox():
-            Expanded(
-              flex: 1,
-              child: Container(
-                  width: 150,
-                  child: inputField(context),
+            activity == 'Diaper'
+                ? const SizedBox()
+                : Expanded(
+                    flex: 1,
+                    child: Container(
+                      width: 150,
+                      child: inputField(context),
+                    ),
                   ),
-            ),
             Expanded(
               flex: 1,
               child: addNoteButton(context),
@@ -105,27 +111,21 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
             Expanded(
               flex: 1,
               child: Container(
-                  child: okButton(),
-                  ),
+                child: okButton(),
+              ),
             ),
           ],
         ),
       ),
     );
-    
-    
-    
-    
-    
   }
 
   choiceButton(String input) {
-      return Center(
+    return Center(
       child: OutlinedButton(
-          
           style: OutlinedButton.styleFrom(
             fixedSize: const Size(100, 50),
-            backgroundColor: colorController ? Colors.black: color,
+            backgroundColor: colorController ? Colors.black : color,
             side: (const BorderSide(color: Colors.white)),
             primary: Colors.white,
             shape: const RoundedRectangleBorder(
@@ -144,16 +144,14 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
             ),
           )),
     );
-
   }
 
   choiceButton2(String input) {
-      return Center(
+    return Center(
       child: OutlinedButton(
-          
           style: OutlinedButton.styleFrom(
             fixedSize: const Size(100, 50),
-            backgroundColor: colorController2 ? Colors.black: color,
+            backgroundColor: colorController2 ? Colors.black : color,
             side: (const BorderSide(color: Colors.white)),
             primary: Colors.white,
             shape: const RoundedRectangleBorder(
@@ -172,7 +170,6 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
             ),
           )),
     );
-
   }
 
   addNoteButton(BuildContext context) {
@@ -198,7 +195,7 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
   }
 
   setButton(BuildContext context) {
-     return Center(
+    return Center(
       child: OutlinedButton(
           style: OutlinedButton.styleFrom(
             fixedSize: const Size(120, 50),
@@ -219,27 +216,19 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
     );
   }
 
-  
-
- 
-
   inputField(BuildContext context) {
     return TextField(
-        keyboardType: TextInputType.number,
-        onSubmitted: (String value){
-          amount = value;
-        },
-        decoration: const InputDecoration(
+      keyboardType: TextInputType.number,
+      onSubmitted: (String value) {
+        amount = value;
+      },
+      decoration: const InputDecoration(
           hintText: 'Enter ml',
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
-            
             borderRadius: BorderRadius.all(Radius.circular(18)),
-          )
-
-        ),
-      
+          )),
     );
   }
 
@@ -248,15 +237,15 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
       icon: const Icon(Icons.ac_unit),
       iconSize: 100,
       color: Colors.white,
-      onPressed: () {       
+      onPressed: () async {
         startTime = DateTime.now();
-        objectCreater();
-         Navigator.of(context).pop();
+        await objectCreater();
+        Navigator.of(context).pop();
       },
     );
   }
 
-    void noteDialog(BuildContext context) {
+  void noteDialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -285,31 +274,33 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
   }
 
   void setActivity(BuildContext context) {
-    DatePicker.showDateTimePicker(context, onConfirm: ((time) {
+    DatePicker.showDateTimePicker(context, onConfirm: ((time) async {
       startTime = time;
-      objectCreater();
+      await objectCreater();
       Navigator.of(context).pop();
-    }));   
-    
-    
-    
+    }));
   }
 
-  void objectCreater() {
-    switch(widget.activity){
+  Future<void> objectCreater() async {
+    switch (widget.activity) {
       case "Bottle milk":
-      BottleMilkActivity bottleMilkActivity = BottleMilkActivity(const Uuid().v4(), startTime, type, amount, provNote);
-      ref.read(timerActivityProvider.notifier).addActivity(bottleMilkActivity);
-      break;
+        BottleMilkActivity bottleMilkActivity = BottleMilkActivity(
+            const Uuid().v4(), startTime, type, amount, provNote);
+        await ApiController.postTimerActivity(
+            ref, bottleMilkActivity, TimerActivityType.bottleMilkActivity);
+        break;
       case "Pumping":
-      PumpingActivity pumpingActivity = PumpingActivity(const Uuid().v4(), startTime, type, amount, provNote);
-      ref.read(timerActivityProvider.notifier).addActivity(pumpingActivity);
-      break;    
+        PumpingActivity pumpingActivity = PumpingActivity(
+            const Uuid().v4(), startTime, type, amount, provNote);
+        await ApiController.postTimerActivity(
+            ref, pumpingActivity, TimerActivityType.pumpingActivity);
+        break;
       case "Diaper":
-      DiaperActivity diaperActivity = DiaperActivity(const Uuid().v4(), startTime, type, provNote);
-      ref.read(timerActivityProvider.notifier).addActivity(diaperActivity);
-      break;   
-  
+        DiaperActivity diaperActivity =
+            DiaperActivity(const Uuid().v4(), startTime, type, provNote);
+        await ApiController.postTimerActivity(
+            ref, diaperActivity, TimerActivityType.diaperActivity);
+        break;
     }
   }
 }
