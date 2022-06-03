@@ -161,7 +161,7 @@ class ApiController<T> {
     }
   }
 
-  static Future<List<TimerActivity>> fetchTimerActivity() async {
+  static Future<List<Activity>> fetchTimerActivity() async {
     final response = await http
         .get(Uri.parse('http://dadash3-001-site1.etempurl.com/api/Activity'));
     if (response.statusCode == 200) {
@@ -169,7 +169,7 @@ class ApiController<T> {
       // then parse the JSON.
       print(response.body);
       List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((data) => TimerActivity.fromJson(data)).toList();
+      return jsonResponse.map((data) => Activity.fromJson(data)).toList();
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.

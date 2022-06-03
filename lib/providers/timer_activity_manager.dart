@@ -7,16 +7,14 @@ import '../model/timer_activity.dart';
 import '../model/tummy_activity.dart';
 import '../model/walk_activity.dart';
 
-
-
-class TimerActivityManager extends StateNotifier<List<Activity>>{
+class TimerActivityManager extends StateNotifier<List<Activity>> {
   TimerActivityManager(List<Activity> state) : super(state);
 
-  void addAllActivities(List<TimerActivity> timerActivities) {
+  void addAllActivities(List<Activity> timerActivities) {
     state.addAll(timerActivities);
   }
 
-  void addActivity(Activity timerActivity){
+  void addActivity(Activity timerActivity) {
     state = [...state, timerActivity];
   }
 
@@ -24,25 +22,28 @@ class TimerActivityManager extends StateNotifier<List<Activity>>{
     state = state.where((element) => element.id != timerActivity.id).toList();
   }
 
-  void edit(String id,int second, DateTime startTime, DateTime finishTime, String note ){
+  void edit(String id, int second, DateTime startTime, DateTime finishTime,
+      String note) {
     late Activity timerActivity;
-    for(int i=0; i<state.length; i++){
-      if(state[i].id == id){
-        if(state[i] is SleepActivity){
-          timerActivity = SleepActivity(id, startTime, finishTime, second, note);
-        }else if(state[i] is TummyActivity){
-          timerActivity = TummyActivity(id, startTime, finishTime, second, note);
+    for (int i = 0; i < state.length; i++) {
+      if (state[i].id == id) {
+        if (state[i] is SleepActivity) {
+          timerActivity =
+              SleepActivity(id, startTime, finishTime, second, note);
+        } else if (state[i] is TummyActivity) {
+          timerActivity =
+              TummyActivity(id, startTime, finishTime, second, note);
+        } else if (state[i] is WalkActivity) {
+          timerActivity =
+              TummyActivity(id, startTime, finishTime, second, note);
+        } else if (state[i] is BathActivity) {
+          timerActivity =
+              TummyActivity(id, startTime, finishTime, second, note);
+        } else if (state[i] is BreastFeedingActivity) {
+          timerActivity =
+              TummyActivity(id, startTime, finishTime, second, note);
         }
-        else if(state[i] is WalkActivity){
-          timerActivity = TummyActivity(id, startTime, finishTime, second, note);
-        }
-        else if(state[i] is BathActivity){
-          timerActivity = TummyActivity(id, startTime, finishTime, second, note);
-        }
-        else if(state[i] is BreastFeedingActivity){
-          timerActivity = TummyActivity(id, startTime, finishTime, second, note);
-        }
-        
+
         remove(state[i]);
         addActivity(timerActivity);
         break;
