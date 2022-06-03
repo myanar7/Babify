@@ -15,6 +15,7 @@ import 'package:flutter_application_1/model/timer_activity.dart';
 import 'package:flutter_application_1/model/tummy_activity.dart';
 import 'package:flutter_application_1/model/vaccination_activity.dart';
 import 'package:flutter_application_1/model/walk_activity.dart';
+import 'package:flutter_application_1/services/api_controller.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -34,6 +35,18 @@ class _HomePageState extends ConsumerState<HomePage> {
   String provNote = '';
   String printValue = '';
   var _allTimerActivities = [];
+  @override
+  void initState() {
+    super.initState();
+    _fetchAllActivitesFromApi(); // bunu öyle bi yere koymalı ki hem ref.watchtan sonra olacak hem de initStatede olacak ya da bi
+  }
+
+  void _fetchAllActivitesFromApi() async {
+    ref
+        .read(timerActivityProvider.notifier)
+        .addAllActivities(await ApiController.fetchTimerActivity());
+  }
+
   @override
   Widget build(BuildContext context) {
     _allTimerActivities = ref.watch(timerActivityProvider);
@@ -110,9 +123,6 @@ class _HomePageState extends ConsumerState<HomePage> {
     );    
   }
 
-
-
-
   void setActivity(BuildContext context, String id) {
     noteDialog(context);
     DateTime startTime = DateTime.now();
@@ -121,34 +131,42 @@ class _HomePageState extends ConsumerState<HomePage> {
       startTime = time;
       DatePicker.showDateTimePicker(context, onConfirm: ((time) {
         endTime = time;
-        int totalMinute = (endTime.hour - startTime.hour) * 60 + (endTime.minute - startTime.minute);
-        ref.read(timerActivityProvider.notifier).edit(id, totalMinute, startTime, endTime, provNote);
-                  
-        }));
-    }   
-    );
+        int totalMinute = (endTime.hour - startTime.hour) * 60 +
+            (endTime.minute - startTime.minute);
+        ref
+            .read(timerActivityProvider.notifier)
+            .edit(id, totalMinute, startTime, endTime, provNote);
+      }));
+    });
   }
-
 
   void noteDialog(BuildContext context) {
     String note = '';
-    showDialog(context: context, builder: (context) => AlertDialog(
-      title: const Text("Add Note"),
-      content: TextField(autofocus: true, onChanged: (String value){
-        note = value;
-      },),
-      actions: [
-        TextButton(onPressed: (){
-          note = '';
-          Navigator.pop(context);
-        }, child: const Text('Cancel')),
-        TextButton(onPressed: (){
-          provNote = note;
-          Navigator.pop(context);
-        }, child: const Text('Ok'))
-      ],
-    ));
-
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Add Note"),
+              content: TextField(
+                autofocus: true,
+                onChanged: (String value) {
+                  note = value;
+                },
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      note = '';
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancel')),
+                TextButton(
+                    onPressed: () {
+                      provNote = note;
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Ok'))
+              ],
+            ));
   }
 
   String setValue(Activity timerActivity) {
@@ -184,8 +202,4 @@ class _HomePageState extends ConsumerState<HomePage> {
                   }
                   return '';
   }
-  
-
 }
-
-          

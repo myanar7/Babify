@@ -12,6 +12,9 @@ import '../model/walk_activity.dart';
 class TimerActivityManager extends StateNotifier<List<Activity>>{
   TimerActivityManager(List<Activity> state) : super(state);
 
+  void addAllActivities(List<TimerActivity> timerActivities) {
+    state.addAll(timerActivities);
+  }
 
   void addActivity(Activity timerActivity){
     state = [...state, timerActivity];
@@ -41,10 +44,9 @@ class TimerActivityManager extends StateNotifier<List<Activity>>{
         }
         
         remove(state[i]);
-        addActivity(timerActivity);  
+        addActivity(timerActivity);
         break;
       }
     }
   }
-   
 }

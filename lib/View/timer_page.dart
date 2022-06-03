@@ -8,6 +8,7 @@ import 'package:flutter_application_1/model/sleep_activity.dart';
 import 'package:flutter_application_1/model/timer_activity.dart';
 import 'package:flutter_application_1/model/walk_activity.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
+import 'package:flutter_application_1/services/api_controller.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -31,8 +32,8 @@ class _TimerPageState extends ConsumerState<TimerPage> {
   DateTime endTime = DateTime.now();
   var _dateController = true;
   var _controller = false;
-  Color color = Color.fromARGB(255, 107, 195, 108);
-
+  Color color = const Color.fromARGB(255, 107, 195, 108);
+  late TimerActivityType type;
   @override
   void initState() {
     super.initState();
@@ -58,6 +59,11 @@ class _TimerPageState extends ConsumerState<TimerPage> {
         color = Color.fromARGB(255, 234, 254, 155);
       break;      
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -195,6 +201,12 @@ class _TimerPageState extends ConsumerState<TimerPage> {
       DatePicker.showDateTimePicker(context, onConfirm: ((tim) {
         objectCreater(time, tim, findMinute());
         Navigator.of(context).pop();
+      //timerActivity.startTime = time;
+      //DatePicker.showDateTimePicker(context, onConfirm: ((tim) async {
+        //timerActivity.finishTime = tim;
+        //timerActivity.second = findMinute();
+        //timerActivity.note = provNote;
+        //await ApiController.postTimerActivity(ref, timerActivity, type);
       }));
     });
   }
@@ -233,7 +245,14 @@ class _TimerPageState extends ConsumerState<TimerPage> {
         objectCreater(startTime, DateTime.now(), timer.duration.inSeconds);
         clearTimer();
         Navigator.of(context).pop();
-        
+
+      //onPressed: () async {
+        //timerActivity.second = timer.duration.inSeconds;
+        //clearTimer();
+        //timerActivity.finishTime = DateTime.now();
+        //timerActivity.startTime = startTime;
+       //timerActivity.note = provNote;
+        //await ApiController.postTimerActivity(ref, timerActivity, type);
       },
     );
   }
