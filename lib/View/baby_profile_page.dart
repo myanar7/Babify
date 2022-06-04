@@ -31,11 +31,8 @@ class _BabyProfilePageState extends ConsumerState<BabyProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    var _allBabies = ref.watch(babyProfileProvider);
-    List accountList = createBabyAccountList(_allBabies);
-
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 227, 233, 236),
+      backgroundColor: const Color.fromARGB(255, 227, 233, 236),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text('Profile page'),
@@ -59,40 +56,39 @@ class _BabyProfilePageState extends ConsumerState<BabyProfilePage> {
                 padding: EdgeInsets.all(16),
                 child: Text(resultText),
               ),
-              RaisedButton(
-                onPressed: () {
-                  showAccountSelectorSheet(
-                    context: context,
-                    accountList: accountList,
-                    isSheetDismissible: false, //Optional
-                    initiallySelectedIndex: 2, //Optional
-                    hideSheetOnItemTap: true,
-                    showAddAccountOption: true, //Optional
-                    backgroundColor: Colors.indigo, //Optional
-                    arrowColor: Colors.white, //Optional
-                    unselectedRadioColor: Colors.white, //Optional
-                    selectedRadioColor: Colors.amber, //Optional
-                    unselectedTextColor: Colors.white, //Optional
-                    selectedTextColor: Colors.amber, //Optional
-                    //Optional
-                    tapCallback: (index) {
-                      setState(() {
-                        widget.baby.setBaby(_allBabies[index]);
-
-                      });
-                    },
-                    //Optional
-                    addAccountTapCallback: () {
-                      setState(() {
-                        resultText = "Add account clicked";
-                        _showNewBabyProfile();
-                      });
-                      print(resultText);
-                    },
-                  );
-                },
-                child: Text("Select Baby"),
-              ),
+              // RaisedButton(
+              //   onPressed: () {
+              //     showAccountSelectorSheet(
+              //       context: context,
+              //       accountList: _allBabies,
+              //       isSheetDismissible: false, //Optional
+              //       initiallySelectedIndex: 2, //Optional
+              //       hideSheetOnItemTap: true,
+              //       showAddAccountOption: true, //Optional
+              //       backgroundColor: Colors.indigo, //Optional
+              //       arrowColor: Colors.white, //Optional
+              //       unselectedRadioColor: Colors.white, //Optional
+              //       selectedRadioColor: Colors.amber, //Optional
+              //       unselectedTextColor: Colors.white, //Optional
+              //       selectedTextColor: Colors.amber, //Optional
+              //       //Optional
+              //       tapCallback: (index) {
+              //         ref
+              //             .read(babyProfileProvider.notifier)
+              //             .changeBabyProfile(index);
+              //       },
+              //       //Optional
+              //       addAccountTapCallback: () {
+              //         setState(() {
+              //           resultText = "Add account clicked";
+              //           _showNewBabyProfile();
+              //         });
+              //         print(resultText);
+              //       },
+              //     );
+              //   },
+              //   child: Text("Select Baby"),
+              // ),
             ],
           ))
         ],
@@ -104,7 +100,7 @@ class _BabyProfilePageState extends ConsumerState<BabyProfilePage> {
         children: [
           Text(
             widget.baby.name,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
           const SizedBox(height: 6),
           Text(
@@ -130,12 +126,4 @@ class _BabyProfilePageState extends ConsumerState<BabyProfilePage> {
           ],
         ),
       );
-
-  List createBabyAccountList(var _allBabies) {
-    List<Baby> accountList = [];
-    for (int i = 0; i < _allBabies.length; i++) {
-      accountList.add(_allBabies[i]);
-    }
-    return accountList;
-  }
 }

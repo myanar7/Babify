@@ -83,7 +83,7 @@ class Activity {
           json['note']);
     } else if (type == TimerActivityType.vaccinationActivity.toStringType()) {
       return VaccinationActivity(json['id'].toString(),
-          DateTime.parse(json['startTime']), json['name'], json['note']);
+          DateTime.parse(json['startTime']), json['name'] ?? "", json['note']);
     } else if (type == TimerActivityType.walkActivity.toStringType()) {
       return WalkActivity(
           json['id'].toString(),

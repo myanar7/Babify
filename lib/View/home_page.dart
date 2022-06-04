@@ -47,6 +47,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     ref
         .read(timerActivityProvider.notifier)
         .addAllActivities(await ApiController.fetchTimerActivity());
+    setState(() {});
   }
 
   @override

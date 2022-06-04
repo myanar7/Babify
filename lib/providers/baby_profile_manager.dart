@@ -16,7 +16,15 @@ class BabyProfileManager extends StateNotifier<List<Baby>> {
     state = [...state, newBabyProfile];
   }
 
+  void addAllBabyProfiles(List<Baby> babies) {
+    state.addAll(babies);
+  }
+
   void removeBabyProfile(Baby baby) {
     state = state.where((element) => element.id != baby.id).toList();
+  }
+
+  void changeBabyProfile(int index) {
+    Baby.currentIndex = index;
   }
 }
