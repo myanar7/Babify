@@ -11,7 +11,7 @@ class TimerActivityManager extends StateNotifier<List<Activity>> {
   TimerActivityManager(List<Activity> state) : super(state);
 
   void addAllActivities(List<Activity> timerActivities) {
-    state.addAll(timerActivities);
+    state = timerActivities;
   }
 
   void addActivity(Activity timerActivity) {

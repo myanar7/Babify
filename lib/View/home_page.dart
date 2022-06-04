@@ -44,9 +44,8 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   void _fetchAllActivitesFromApi() async {
-    ref
-        .read(timerActivityProvider.notifier)
-        .addAllActivities(await ApiController.fetchTimerActivity());
+    ref.read(timerActivityProvider.notifier).addAllActivities(
+        await ApiController.fetchTimerActivity(ref.read(babyProfileProvider)));
     setState(() {});
   }
 

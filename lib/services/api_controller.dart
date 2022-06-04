@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/model/baby.dart';
 import 'package:flutter_application_1/model/bath_activity.dart';
 import 'package:flutter_application_1/model/bottlemilk_activity.dart';
@@ -85,14 +84,16 @@ class ApiController {
       WidgetRef ref, dynamic timerActivity, TimerActivityType type) async {
     String body = "";
     String path = "";
+    List babies = ref.read(babyProfileProvider);
+    int babyId = -1;
+    if (babies.isNotEmpty) babyId = int.parse(babies[Baby.currentIndex].id);
     switch (type) {
       case TimerActivityType.sleepActivity:
         if (timerActivity is! SleepActivity) break;
         SleepActivity sleepActivity = timerActivity;
         body = jsonEncode(<String, dynamic>{
+          'babyId': babyId,
           'startTime': sleepActivity.startTime.toString(),
-
-          /// BUNLAR GİBİ OLACAK HEPSİ
           'finishTime': sleepActivity.finishTime.toString(),
           'seconds': sleepActivity.second,
           'note': sleepActivity.note,
@@ -104,6 +105,7 @@ class ApiController {
         if (timerActivity is! TummyActivity) break;
         TummyActivity tummyActivity = timerActivity;
         body = jsonEncode(<String, dynamic>{
+          'babyId': babyId,
           'startTime': tummyActivity.startTime.toString(),
           'finishTime': tummyActivity.finishTime.toString(),
           'seconds': tummyActivity.second,
@@ -116,6 +118,7 @@ class ApiController {
         if (timerActivity is! BreastFeedingActivity) break;
         BreastFeedingActivity breastFeedingActivity = timerActivity;
         body = jsonEncode(<String, dynamic>{
+          'babyId': babyId,
           'startTime': breastFeedingActivity.startTime.toString(),
           'finishTime': breastFeedingActivity.finishTime.toString(),
           'seconds': breastFeedingActivity.second,
@@ -128,6 +131,7 @@ class ApiController {
         if (timerActivity is! BathActivity) break;
         BathActivity bathActivity = timerActivity;
         body = jsonEncode(<String, dynamic>{
+          'babyId': babyId,
           'startTime': bathActivity.startTime.toString(),
           'finishTime': bathActivity.finishTime.toString(),
           'seconds': bathActivity.second,
@@ -140,6 +144,7 @@ class ApiController {
         if (timerActivity is! WalkActivity) break;
         WalkActivity walkActivity = timerActivity;
         body = jsonEncode(<String, dynamic>{
+          'babyId': babyId,
           'startTime': walkActivity.startTime.toString(),
           'finishTime': walkActivity.finishTime.toString(),
           'seconds': walkActivity.second,
@@ -152,6 +157,7 @@ class ApiController {
         if (timerActivity is! PumpingActivity) break;
         PumpingActivity pumpingActivity = timerActivity;
         body = jsonEncode(<String, dynamic>{
+          'babyId': babyId,
           'startTime': pumpingActivity.startTime.toString(),
           'pumpingType': pumpingActivity.type,
           'amount': pumpingActivity.amount,
@@ -164,6 +170,7 @@ class ApiController {
         if (timerActivity is! DiaperActivity) break;
         DiaperActivity diaperActivity = timerActivity;
         body = jsonEncode(<String, dynamic>{
+          'babyId': babyId,
           'startTime': diaperActivity.startTime.toString(),
           'diaperType': diaperActivity.type,
           'note': diaperActivity.note,
@@ -175,6 +182,7 @@ class ApiController {
         if (timerActivity is! BottleMilkActivity) break;
         BottleMilkActivity bottleMilkActivity = timerActivity;
         body = jsonEncode(<String, dynamic>{
+          'babyId': babyId,
           'startTime': bottleMilkActivity.startTime.toString(),
           'bottleMilkType': bottleMilkActivity.type,
           'amount': bottleMilkActivity.amount,
@@ -187,6 +195,7 @@ class ApiController {
         if (timerActivity is! MeasureActivity) break;
         MeasureActivity measureActivity = timerActivity;
         body = jsonEncode(<String, dynamic>{
+          'babyId': babyId,
           'startTime': timerActivity.startTime.toString(),
           'weight': timerActivity.weight,
           'height': timerActivity.height,
@@ -200,6 +209,7 @@ class ApiController {
         if (timerActivity is! MedicationActivity) break;
         MedicationActivity medicationActivity = timerActivity;
         body = jsonEncode(<String, dynamic>{
+          'babyId': babyId,
           'startTime': medicationActivity.startTime.toString(),
           'name': medicationActivity.name,
           'dose': medicationActivity.dose,
@@ -212,6 +222,7 @@ class ApiController {
         if (timerActivity is! VaccinationActivity) break;
         VaccinationActivity vaccinationActivity = timerActivity;
         body = jsonEncode(<String, dynamic>{
+          'babyId': babyId,
           'startTime': vaccinationActivity.startTime.toString(),
           'name': vaccinationActivity.name,
           'note': vaccinationActivity.note,
@@ -244,9 +255,12 @@ class ApiController {
     }
   }
 
-  static Future<List<Activity>> fetchTimerActivity() async {
-    final response = await http
-        .get(Uri.parse('http://dadash3-001-site1.etempurl.com/api/Activity'));
+  static Future<List<Activity>> fetchTimerActivity(List<Baby> babies) async {
+    int babyId = 0;
+    if (babies.isNotEmpty) babyId = int.parse(babies[Baby.currentIndex].id);
+
+    final response = await http.get(Uri.parse(
+        'http://dadash3-001-site1.etempurl.com/api/Activity/get-activity-with-baby-id?babyId=$babyId'));
     //'http://dadash3-001-site1.etempurl.com/api/Activity/get-activity-with-baby-id?babyId=${ref.read(babyProfileProvider)[Baby.currentIndex].id}'));
     if (response.statusCode == 200) {
       // If the server did return a 201 CREATED response,
@@ -268,6 +282,7 @@ class ApiController {
       List jsonResponse = json.decode(response.body);
       ref.read(babyProfileProvider.notifier).addAllBabyProfiles(
           jsonResponse.map((data) => Baby.fromJson(data)).toList());
+      Baby.currentIndex = 0;
     } else {
       throw Exception("Failed to fetch Babies");
     }

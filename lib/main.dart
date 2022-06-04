@@ -81,12 +81,15 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
                     unselectedTextColor: Colors.white, //Optional
                     selectedTextColor: Colors.amber, //Optional
                     //Optional
-                    tapCallback: (index) {
+                    tapCallback: (index) async {
                       setState(() {
                         ref
                             .read(babyProfileProvider.notifier)
                             .changeBabyProfile(index);
                       });
+                      ref.read(timerActivityProvider.notifier).addAllActivities(
+                          await ApiController.fetchTimerActivity(
+                              ref.read(babyProfileProvider)));
                     },
                     //Optional
                     addAccountTapCallback: () {
@@ -100,7 +103,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
           ],
           bottom: TabBar(
             onTap: (index) {
-              // Should not used it as it only called when tab options are clicked,,
+              // Should not used it as it only called when tab options are clicked,
               // not when user swapped
             },
             controller: _controller,
