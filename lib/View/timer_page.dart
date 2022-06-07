@@ -206,6 +206,9 @@ class _TimerPageState extends ConsumerState<TimerPage> {
   void setActivity(BuildContext context) {
     DatePicker.showDateTimePicker(context,minTime: DateTime(2022, 4, 1),maxTime: DateTime.now(), onConfirm: (time) {
       DatePicker.showDateTimePicker(context, minTime: DateTime(2022, 4, 1),maxTime: DateTime.now(), onConfirm: ((tim) async {
+        startTime = time;
+        endTime = tim;
+
         await objectCreater(time, tim, findMinute());
         Navigator.of(context).pop();
       }));
@@ -253,8 +256,10 @@ class _TimerPageState extends ConsumerState<TimerPage> {
       iconSize: 100,
       color: Colors.white,
       onPressed: () async {
+        int minute = (timer.duration.inSeconds / 60).toInt();
         await objectCreater(
-            startTime, DateTime.now(), timer.duration.inSeconds);
+            
+            startTime, DateTime.now(), minute);
         clearTimer();
         Navigator.of(context).pop();
       },
@@ -300,8 +305,9 @@ class _TimerPageState extends ConsumerState<TimerPage> {
   }
 
   int findMinute() {
-    int totalMinute = (endTime.hour - startTime.hour) * 60 +
-        (endTime.minute - startTime.minute);
+    if(endTime.minute - startTime.minute < 0){}
+    int totalMinute = (endTime.hour - startTime.hour) * 60 + (endTime.minute - startTime.minute);
+    debugPrint(totalMinute.toString());
     return totalMinute;
   }
 }

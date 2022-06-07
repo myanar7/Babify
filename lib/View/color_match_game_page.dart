@@ -32,7 +32,7 @@ class ColorGameState extends State<ColorGame> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Score ${score.length} / 5'),
+        title: Text('Score ${score.length} / 6'),
         backgroundColor: Colors.teal,
       ),
       floatingActionButton: FloatingActionButton(
@@ -115,7 +115,7 @@ class Emoji extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: Container(
-        height: 100,
+        height: 85,
         width: 100,
         child: Center(
           child: Text(

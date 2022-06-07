@@ -345,7 +345,7 @@ class _HealthPageState extends ConsumerState<HealthPage> {
 
   IconButton okButton() {
     return IconButton(
-      icon: const Icon(Icons.ac_unit),
+      icon: const Icon(Icons.check_circle_outline_sharp),
       iconSize: 100,
       color: Colors.white,
       onPressed: () async {

@@ -139,6 +139,9 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
           onPressed: () {
             setState(() {
               colorController = !colorController;
+              if(colorController2){
+                colorController2 = !colorController2;
+              }
               type = choice1;
             });
           },
@@ -165,6 +168,9 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
           onPressed: () {
             setState(() {
               colorController2 = !colorController2;
+              if(colorController){
+                colorController = !colorController;
+              }
               type = choice2;
             });
           },
@@ -224,7 +230,7 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
   inputField(BuildContext context) {
     return TextField(
       keyboardType: TextInputType.number,
-      onSubmitted: (String value) {
+      onChanged: (String value) {
         amount = value;
       },
       decoration: const InputDecoration(
@@ -239,7 +245,7 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
 
   IconButton okButton() {
     return IconButton(
-      icon: const Icon(Icons.ac_unit),
+      icon: const Icon(Icons.check_circle_outline_sharp),
       iconSize: 100,
       color: Colors.white,
       onPressed: () async {
