@@ -23,6 +23,7 @@ class TimerPage extends ConsumerStatefulWidget {
 
 class _TimerPageState extends ConsumerState<TimerPage> {
   String activity = '';
+  String icon = '';
   int second = 0;
   String note = '';
   String provNote = '';
@@ -31,7 +32,7 @@ class _TimerPageState extends ConsumerState<TimerPage> {
   DateTime endTime = DateTime.now();
   var _dateController = true;
   var _controller = false;
-  Color color = const Color.fromARGB(255, 107, 195, 108);
+  Color color = const Color.fromARGB(255, 205, 202, 194);
   late TimerActivityType type;
   @override
   void initState() {
@@ -40,22 +41,27 @@ class _TimerPageState extends ConsumerState<TimerPage> {
     switch (widget.activity) {
       case 'sleep':
         activity = 'sleep';
+        icon = "assets/icons/sleep.png";
         break;
       case 'tummy':
         activity = 'tummy';
         color = const Color.fromARGB(255, 100, 158, 205);
+        icon = "assets/icons/tummy.png";
         break;
       case 'walk':
         activity = 'walk';
         color = const Color.fromARGB(255, 205, 87, 87);
+        icon = "assets/icons/walk.png";
         break;
       case 'bath':
         activity = 'bath';
-        color = const Color.fromARGB(255, 0, 140, 255);
+        color = Color.fromARGB(255, 255, 0, 221);
+        icon = "assets/icons/bath.png";
         break;
       case 'breastfeeding':
         activity = 'breastfeeding';
-        color = const Color.fromARGB(255, 234, 254, 155);
+        color = const Color.fromARGB(255, 216, 44, 44);
+        icon = "assets/icons/breastfeeding.png";
         break;
     }
   }
@@ -85,28 +91,31 @@ class _TimerPageState extends ConsumerState<TimerPage> {
       body: SafeArea(
         child: Column(
           children: [
+            Expanded(child: Image.asset(icon),flex: 1,),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Container(
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Text(
                   timer.hour + ':' + timer.minutes + ':' + timer.seconds,
                   style: const TextStyle(fontSize: 80, color: Colors.white),
                 ),
               ),
             ),
+            
+
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Container(
                 child: setButton(context),
               ),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: addNoteButton(context),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -125,7 +134,7 @@ class _TimerPageState extends ConsumerState<TimerPage> {
     return Center(
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          fixedSize: const Size(100, 50),
+          fixedSize: const Size(120, 50),
           side: (const BorderSide(color: Colors.white)),
           primary: Colors.white,
           shape: const RoundedRectangleBorder(
@@ -137,7 +146,7 @@ class _TimerPageState extends ConsumerState<TimerPage> {
         child: const Center(
           child: Text(
             "Add note",
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 17),
           ),
         ),
       ),
@@ -176,7 +185,7 @@ class _TimerPageState extends ConsumerState<TimerPage> {
     return Center(
       child: OutlinedButton(
           style: OutlinedButton.styleFrom(
-            fixedSize: const Size(100, 50),
+            fixedSize: const Size(140, 50),
             side: (const BorderSide(color: Colors.white)),
             primary: Colors.white,
             shape: const RoundedRectangleBorder(
@@ -188,15 +197,15 @@ class _TimerPageState extends ConsumerState<TimerPage> {
           child: Center(
             child: Text(
               'Set ' + activity,
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 17),
             ),
           )),
     );
   }
 
   void setActivity(BuildContext context) {
-    DatePicker.showDateTimePicker(context, onConfirm: (time) {
-      DatePicker.showDateTimePicker(context, onConfirm: ((tim) async {
+    DatePicker.showDateTimePicker(context,minTime: DateTime(2022, 4, 1),maxTime: DateTime.now(), onConfirm: (time) {
+      DatePicker.showDateTimePicker(context, minTime: DateTime(2022, 4, 1),maxTime: DateTime.now(), onConfirm: ((tim) async {
         await objectCreater(time, tim, findMinute());
         Navigator.of(context).pop();
       }));

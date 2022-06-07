@@ -26,9 +26,10 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
   String type = '';
   String note = '';
   String amount = '';
+  String icon = '';
   late DateTime startTime;
   var selectedDate = DateTime.now();
-  Color color = Colors.amber;
+  Color color = Color.fromARGB(255, 101, 201, 243);
   String activity = '';
   String choice1 = ' ';
   String choice2 = '';
@@ -41,16 +42,19 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
       case 'Bottle milk':
         choice1 = 'Formula';
         choice2 = "Mom's milk";
+        icon = "assets/icons/milk.png";
         break;
       case 'Pumping':
         choice1 = 'Left breast';
         choice2 = 'Right breast';
-        color = const Color.fromARGB(255, 71, 208, 235);
+        icon = "assets/icons/pumping.png";
+        color = const Color.fromARGB(255, 162, 96, 94);
         break;
       case 'Diaper':
         choice1 = 'Pee';
         choice2 = 'Poo';
-        color = const Color.fromARGB(255, 54, 218, 152);
+        icon = "assets/icons/diaper.png";
+        color = const Color.fromARGB(255, 138, 255, 183);
         break;
     }
   }
@@ -79,6 +83,7 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
       body: SafeArea(
         child: Column(
           children: [
+            Expanded(flex: 1, child: Container(child: Image.asset(icon),padding: const EdgeInsets.fromLTRB(0, 10, 0, 0) )),
             Expanded(
               flex: 1,
               child: Row(
@@ -274,7 +279,7 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
   }
 
   void setActivity(BuildContext context) {
-    DatePicker.showDateTimePicker(context, onConfirm: ((time) async {
+    DatePicker.showDateTimePicker(context,minTime: DateTime(2022, 4, 1),maxTime: DateTime.now(), onConfirm: ((time) async {
       startTime = time;
       await objectCreater();
       Navigator.of(context).pop();

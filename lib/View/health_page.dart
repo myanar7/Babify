@@ -30,8 +30,9 @@ class _HealthPageState extends ConsumerState<HealthPage> {
   String height = '';
   String weight = '';
   String head = '';
+  String icon = '';
   late DateTime startTime;
-  Color color = Colors.amber;
+  Color color = Color.fromARGB(255, 192, 80, 80);
   var colorController = false;
   var colorController2 = false;
   String activity = '';
@@ -46,12 +47,15 @@ class _HealthPageState extends ConsumerState<HealthPage> {
       case 'Medication':
         choice1 = 'ml';
         choice2 = 'dose';
+        icon = "assets/icons/medication.png";
         break;
       case 'Vaccination':
         color = const Color.fromARGB(255, 71, 208, 235);
+        icon = "assets/icons/vaccination.png";
         break;
       case 'Measure':
-        color = Color.fromARGB(255, 244, 255, 183);
+        color = Color.fromARGB(255, 107, 6, 60);
+        icon = "assets/icons/measure.png";
         break;
     }
   }
@@ -80,9 +84,10 @@ class _HealthPageState extends ConsumerState<HealthPage> {
       body: SafeArea(
         child: Column(
           children: [
+            Expanded(flex: 1, child: Container(child: Image.asset(icon),padding: const EdgeInsets.fromLTRB(0, 10, 0, 0) )),
             activity == 'Medication'
                 ? Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -93,13 +98,13 @@ class _HealthPageState extends ConsumerState<HealthPage> {
                   )
                 : const SizedBox(),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Container(
                 child: setButton(context),
               ),
             ),
             Expanded(
-              flex: 2,
+              flex: 4,
               child: Center(
                 child: Column(
                   children: [
@@ -147,11 +152,11 @@ class _HealthPageState extends ConsumerState<HealthPage> {
               ),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: addNoteButton(context),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Container(
                 child: okButton(),
               ),
@@ -281,7 +286,7 @@ class _HealthPageState extends ConsumerState<HealthPage> {
         amount = value;
       },
       decoration: const InputDecoration(
-          hintText: 'Enter ',
+          hintText: 'Enter amount',
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -380,7 +385,7 @@ class _HealthPageState extends ConsumerState<HealthPage> {
   }
 
   void setActivity(BuildContext context) {
-    DatePicker.showDateTimePicker(context, onConfirm: ((time) async {
+    DatePicker.showDateTimePicker(context,minTime: DateTime(2022, 4, 1),maxTime: DateTime.now(), onConfirm: ((time) async {
       startTime = time;
       await objectCreater();
       Navigator.of(context).pop();
