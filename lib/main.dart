@@ -8,6 +8,7 @@ import 'package:flutter_application_1/View/sign_in_page.dart';
 import 'package:flutter_application_1/model/baby.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
 import 'package:flutter_application_1/services/api_controller.dart';
+import 'package:flutter_application_1/utilities/keys.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_application_1/View/entertainment_page.dart';
 import 'View/home_page.dart';
@@ -64,7 +65,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromARGB(255, 253, 85, 242),
+          backgroundColor: apbr,
           actions: [
             IconButton(
                 onPressed: () {

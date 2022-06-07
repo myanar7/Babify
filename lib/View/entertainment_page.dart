@@ -144,7 +144,7 @@ class _EntartainmentPageState extends State<EntartainmentPage> {
     return Scaffold(
       backgroundColor: bckgrnd,
       appBar: AppBar(
-        title: const Text('YouTube Channel'),backgroundColor: Color.fromARGB(255, 253, 85, 242),
+        title: const Text('YouTube Channel'),backgroundColor: apbr,
       ),
       body: _channel != null
           ? NotificationListener<ScrollNotification>(
