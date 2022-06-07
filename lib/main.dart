@@ -42,11 +42,11 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
   late TabController _controller;
 
   List<Widget> list = [
-    const Tab(icon: Icon(Icons.card_travel)),
+    const Tab(icon: Icon(Icons.apps)),
     const Tab(icon: Icon(Icons.account_box)),
+    const Tab(icon: Icon(Icons.video_collection)),
     const Tab(icon: Icon(Icons.photo)),
     const Tab(icon: Icon(Icons.comment)),
-    const Tab(icon: Icon(Icons.video_collection)),
     const Tab(icon: Icon(Icons.gamepad)),
   ];
 
@@ -64,6 +64,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 253, 85, 242),
           actions: [
             IconButton(
                 onPressed: () {

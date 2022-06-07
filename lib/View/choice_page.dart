@@ -6,6 +6,7 @@ import 'package:flutter_application_1/model/pumping_activity.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
 import 'package:flutter_application_1/services/api_controller.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
@@ -67,7 +68,7 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(builder: EasyLoading.init(),home: Scaffold(
       backgroundColor: color,
       appBar: AppBar(
         backgroundColor: color,
@@ -122,7 +123,7 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
           ],
         ),
       ),
-    );
+    ));
   }
 
   choiceButton(String input) {
@@ -139,10 +140,14 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
           onPressed: () {
             setState(() {
               colorController = !colorController;
+              
               if(colorController2){
                 colorController2 = !colorController2;
               }
               type = choice1;
+              if(!colorController){
+                type = '';
+              }
             });
           },
           child: Center(
@@ -172,6 +177,9 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
                 colorController = !colorController;
               }
               type = choice2;
+              if(!colorController2){
+                type = '';
+              }
             });
           },
           child: Center(
@@ -250,8 +258,7 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
       color: Colors.white,
       onPressed: () async {
         startTime = DateTime.now();
-        await objectCreater();
-        Navigator.of(context).pop();
+        control();
       },
     );
   }
@@ -262,7 +269,9 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
         builder: (context) => AlertDialog(
               title: const Text("Add Note"),
               content: TextField(
+                maxLength: 25,
                 autofocus: true,
+                decoration: const InputDecoration(counterText: ""),
                 onChanged: (String value) {
                   note = value;
                 },
@@ -287,8 +296,7 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
   void setActivity(BuildContext context) {
     DatePicker.showDateTimePicker(context,minTime: DateTime(2022, 4, 1),maxTime: DateTime.now(), onConfirm: ((time) async {
       startTime = time;
-      await objectCreater();
-      Navigator.of(context).pop();
+      control();
     }));
   }
 
@@ -313,5 +321,26 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
             ref, diaperActivity, TimerActivityType.diaperActivity);
         break;
     }
+  }
+
+  Future<void> control() async {
+    if(type != '' && amount != '' && activity == 'Bottle milk'){        
+        await objectCreater();
+        Navigator.of(context).pop();
+      }else if(activity == 'Bottle milk'){
+        EasyLoading.showToast("Enter all information", duration: const Duration(seconds: 1), dismissOnTap: true, toastPosition: EasyLoadingToastPosition.bottom);
+      }
+      if(type != '' && amount != '' && activity == 'Pumping'){        
+        await objectCreater();
+        Navigator.of(context).pop();
+      }else if(activity == 'Pumping'){
+        EasyLoading.showToast("Enter all information", duration: const Duration(seconds: 1), dismissOnTap: true, toastPosition: EasyLoadingToastPosition.bottom);
+      }
+      if(type != '' && activity == 'Diaper'){        
+        await objectCreater();
+        Navigator.of(context).pop();
+      }else if(activity == 'Diaper'){
+        EasyLoading.showToast("Enter type", duration: const Duration(seconds: 1), dismissOnTap: true, toastPosition: EasyLoadingToastPosition.bottom);
+      }
   }
 }

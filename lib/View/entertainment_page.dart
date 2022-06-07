@@ -3,6 +3,7 @@ import 'package:flutter_application_1/model/channel_model.dart';
 import 'package:flutter_application_1/model/video_model.dart';
 import 'package:flutter_application_1/View/video_screen.dart';
 import 'package:flutter_application_1/services/youtube_api_service.dart';
+import 'package:flutter_application_1/utilities/keys.dart';
 
 class EntartainmentPage extends StatefulWidget {
   const EntartainmentPage({Key? key}) : super(key: key);
@@ -141,8 +142,9 @@ class _EntartainmentPageState extends State<EntartainmentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bckgrnd,
       appBar: AppBar(
-        title: const Text('YouTube Channel'),
+        title: const Text('YouTube Channel'),backgroundColor: Color.fromARGB(255, 253, 85, 242),
       ),
       body: _channel != null
           ? NotificationListener<ScrollNotification>(

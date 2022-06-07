@@ -15,7 +15,7 @@ class _ActivityPageState extends State<ActivityPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Add activity"), backgroundColor: Colors.grey,),
+      appBar: AppBar(title: const Text("Add activity"), backgroundColor: Color.fromARGB(255, 253, 85, 242),),
 
       body: Container(
         decoration: const BoxDecoration(

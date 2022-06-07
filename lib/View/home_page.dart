@@ -14,8 +14,11 @@ import 'package:flutter_application_1/model/tummy_activity.dart';
 import 'package:flutter_application_1/model/vaccination_activity.dart';
 import 'package:flutter_application_1/model/walk_activity.dart';
 import 'package:flutter_application_1/services/api_controller.dart';
+import 'package:flutter_application_1/utilities/keys.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 
 import '../model/pumping_activity.dart';
 import '../providers/all_providers.dart';
@@ -60,7 +63,7 @@ class _HomePageState extends ConsumerState<HomePage> {
     var diaper = const ChoicePage(activity: 'Diaper');
 
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 205, 202, 194),
+        backgroundColor: bckgrnd,
         body: ListView(
           children: <Widget>[
             GridView.count(
@@ -409,7 +412,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ),
                 ],
               ),
-              flex: 1,
+              flex: 5,
             ),
             const Expanded(
               child: SizedBox(),
@@ -450,7 +453,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ),
                 ],
               ),
-              flex: 5,
+              flex: 7,
             ),
             const Expanded(
               child: SizedBox(),
@@ -494,7 +497,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ),
                 ],
               ),
-              flex: 5,
+              flex: 7,
             ),
             const Expanded(
               child: SizedBox(),
@@ -504,4 +507,5 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
       );
   }
+  
 }

@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/utilities/keys.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class ColorGame extends StatefulWidget {
   const ColorGame({Key? key}) : super(key: key);
@@ -30,10 +32,11 @@ class ColorGameState extends State<ColorGame> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(builder: EasyLoading.init(),home: Scaffold(
+      backgroundColor: bckgrnd,
       appBar: AppBar(
         title: Text('Score ${score.length} / 6'),
-        backgroundColor: Colors.teal,
+        backgroundColor: apbr,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.refresh),
@@ -71,7 +74,7 @@ class ColorGameState extends State<ColorGame> {
           )
         ],
       ),
-    );
+    ));
   }
 
   Widget _builDragTarget(emoji) {
@@ -97,6 +100,9 @@ class ColorGameState extends State<ColorGame> {
       onAccept: (data) {
         setState(() {
           score[emoji] = true;
+          if(score.length == 6){
+            EasyLoading.showSuccess('Congratulations');
+          }
         });
         _audioController.play('success.mp3');
       },
@@ -113,7 +119,8 @@ class Emoji extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      
+      color: bckgrnd,
       child: Container(
         height: 85,
         width: 100,
@@ -125,7 +132,7 @@ class Emoji extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 2),
-          color: Colors.white,
+          color: bckgrnd,
           shape: BoxShape.circle,
         ),
       ),
