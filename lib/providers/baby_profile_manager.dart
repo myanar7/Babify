@@ -7,7 +7,7 @@ class BabyProfileManager extends StateNotifier<List<Baby>> {
 
   void addBabyProfile(Baby baby) {
     var newBabyProfile = Baby(
-        id: const Uuid().v4(),
+        id: baby.id,
         photoPath: baby.photoPath,
         name: baby.name,
         birthday: baby.birthday,
