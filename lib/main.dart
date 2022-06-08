@@ -69,37 +69,41 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
           actions: [
             IconButton(
                 onPressed: () {
-                  showAccountSelectorSheet(
-                    context: context,
-                    accountList: accountList,
-                    initiallySelectedIndex: Baby.currentIndex,
-                    isSheetDismissible: false, //Optional
-                    hideSheetOnItemTap: true,
-                    showAddAccountOption: true, //Optional
-                    backgroundColor: Colors.indigo, //Optional
-                    arrowColor: Colors.white, //Optional
-                    unselectedRadioColor: Colors.white, //Optional
-                    selectedRadioColor: Colors.amber, //Optional
-                    unselectedTextColor: Colors.white, //Optional
-                    selectedTextColor: Colors.amber, //Optional
-                    //Optional
-                    tapCallback: (index) async {
-                      setState(() {
+                  if (ref.read(babyProfileProvider).isNotEmpty) {
+                    showAccountSelectorSheet(
+                      context: context,
+                      accountList: accountList,
+                      initiallySelectedIndex: Baby.currentIndex,
+                      isSheetDismissible: false, //Optional
+                      hideSheetOnItemTap: true,
+                      showAddAccountOption: true, //Optional
+                      backgroundColor: Colors.indigo, //Optional
+                      arrowColor: Colors.white, //Optional
+                      unselectedRadioColor: Colors.white, //Optional
+                      selectedRadioColor: Colors.amber, //Optional
+                      unselectedTextColor: Colors.white, //Optional
+                      selectedTextColor: Colors.amber, //Optional
+                      //Optional
+                      tapCallback: (index) async {
+                        setState(() {
+                          ref
+                              .read(babyProfileProvider.notifier)
+                              .changeBabyProfile(index);
+                        });
                         ref
-                            .read(babyProfileProvider.notifier)
-                            .changeBabyProfile(index);
-                      });
-                      ref.read(timerActivityProvider.notifier).addAllActivities(
-                          await ApiController.fetchTimerActivity(
-                              ref.read(babyProfileProvider)));
-                    },
-                    //Optional
-                    addAccountTapCallback: () {
-                      setState(() {
-                        _controller.animateTo(1);
-                      });
-                    },
-                  );
+                            .read(timerActivityProvider.notifier)
+                            .addAllActivities(
+                                await ApiController.fetchTimerActivity(
+                                    ref.read(babyProfileProvider)));
+                      },
+                      //Optional
+                      addAccountTapCallback: () {
+                        setState(() {
+                          _controller.animateTo(1);
+                        });
+                      },
+                    );
+                  }
                 },
                 icon: const Icon(Icons.person))
           ],
