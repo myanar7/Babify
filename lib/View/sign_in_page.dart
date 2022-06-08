@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/View/new_baby_profile.dart';
 import 'package:flutter_application_1/View/sign_up_page.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
@@ -131,6 +132,14 @@ class _SignInPageStateful extends ConsumerState<SignInPage> {
                           _controllerPassword.text);
                       if (statusCode == 200) {
                         await ApiController.fetchBabies(ref);
+                        if (ref.read(babyProfileProvider).isEmpty) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const NewBabyProfilePage(),
+                              ));
+                        }
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(

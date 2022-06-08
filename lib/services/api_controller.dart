@@ -17,6 +17,7 @@ import 'package:flutter_application_1/model/walk_activity.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum TimerActivityType {
   sleepActivity,
@@ -52,6 +53,8 @@ class ApiController {
     var res = await http.post(url, headers: headers, body: data);
     if (res.statusCode == 200) {
       final parsed = json.decode(res.body).cast<String, dynamic>();
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('id', parsed['id']);
     } else {
       throw Exception('http.post error: statusCode= ${res.statusCode}');
     }
@@ -260,7 +263,7 @@ class ApiController {
     if (babies.isNotEmpty) babyId = int.parse(babies[Baby.currentIndex].id);
 
     final response = await http.get(Uri.parse(
-        'http://dadash3-001-site1.etempurl.com/api/Activity/get-activity-with-baby-id?babyId=$babyId'));
+        'http://dadash3-001-site1.etempurl.com/api/Activity/get-activities-with-baby-id?babyId=$babyId'));
     //'http://dadash3-001-site1.etempurl.com/api/Activity/get-activity-with-baby-id?babyId=${ref.read(babyProfileProvider)[Baby.currentIndex].id}'));
     if (response.statusCode == 200) {
       // If the server did return a 201 CREATED response,
@@ -275,9 +278,58 @@ class ApiController {
     }
   }
 
+  static Future<Baby> postBaby(WidgetRef ref, String name, DateTime birthday,
+      double height, double weight) async {
+    String body = "";
+
+    final prefs = await SharedPreferences.getInstance();
+
+    body = jsonEncode(<String, dynamic>{
+      'name': name,
+      'birthDay': birthday.toString(),
+      'photoURL':
+          'https://images.pexels.com/photos/1556706/pexels-photo-1556706.jpeg?cs=srgb&dl=pexels-daniel-reche-1556706.jpg&fm=jpg',
+      'height': height,
+      'weight': weight,
+      'parentId1': prefs.getInt('id'),
+      'parentId2': 0
+    });
+
+    final response = await http.post(
+      Uri.parse('http://dadash3-001-site1.etempurl.com/api/Baby/add-baby'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: body, // ŞU URL SESSIONU YAPINCA OLUR GIBI GIBI
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      print(response.body);
+
+      Baby.currentIndex = ref.read(babyProfileProvider).length -
+          1; // fetch timerda bi sorun vardı id parse etmede onun sorununu burdan da bi bak
+      return Baby(
+          id: response.body,
+          photoPath:
+              'https://images.pexels.com/photos/1556706/pexels-photo-1556706.jpeg?cs=srgb&dl=pexels-daniel-reche-1556706.jpg&fm=jpg',
+          name: name,
+          birthday: birthday,
+          height: height,
+          weight: weight);
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to create album.');
+    }
+  }
+
   static Future<void> fetchBabies(WidgetRef ref) async {
+    final prefs = await SharedPreferences.getInstance();
+    final parentId = prefs.getInt('id');
     final response = await http.get(Uri.parse(
-        'http://dadash3-001-site1.etempurl.com/api/Baby/get-babies?parentId=1'));
+        'http://dadash3-001-site1.etempurl.com/api/Baby/get-babies?parentId=$parentId'));
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       ref.read(babyProfileProvider.notifier).addAllBabyProfiles(

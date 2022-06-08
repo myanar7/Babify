@@ -19,6 +19,7 @@ class Baby {
   });
 
   factory Baby.create({
+    required id,
     required photoPath,
     required name,
     required birthday,
@@ -26,7 +27,7 @@ class Baby {
     required weight,
   }) {
     return Baby(
-        id: const Uuid().v4(),
+        id: id,
         photoPath: photoPath,
         name: name,
         birthday: birthday,

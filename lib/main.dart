@@ -72,8 +72,8 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
                   showAccountSelectorSheet(
                     context: context,
                     accountList: accountList,
+                    initiallySelectedIndex: Baby.currentIndex,
                     isSheetDismissible: false, //Optional
-                    initiallySelectedIndex: 2, //Optional
                     hideSheetOnItemTap: true,
                     showAddAccountOption: true, //Optional
                     backgroundColor: Colors.indigo, //Optional

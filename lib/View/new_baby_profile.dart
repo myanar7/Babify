@@ -4,6 +4,7 @@ import 'package:flutter_application_1/model/baby.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
 import 'package:flutter_application_1/providers/baby_profile_manager.dart';
+import 'package:flutter_application_1/services/api_controller.dart';
 import 'package:flutter_application_1/utilities/keys.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
 import 'package:flutter_application_1/widget/appbar_widget.dart';
@@ -138,7 +139,7 @@ class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
   }
 
   // You'll need the context in order for the Navigator to work.
-  void submitBaby(BuildContext context) {
+  void submitBaby(BuildContext context) async {
     //print("hereee");
     // First make sure there is some information in the form.
     // A dog needs a name, but may be location independent,
@@ -147,14 +148,13 @@ class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
       print('Baby needs a name!');
     } else {
       // Create a new dog with the information from the form.
-      var newBaby = Baby(
-          id: "2",
-          photoPath:
-              'https://images.pexels.com/photos/1556706/pexels-photo-1556706.jpeg?cs=srgb&dl=pexels-daniel-reche-1556706.jpg&fm=jpg',
-          name: nameController.text,
-          birthday: selectedDate,
-          height: double.parse(heightController.text),
-          weight: double.parse(weightController.text));
+
+      var newBaby = await ApiController.postBaby(
+          ref,
+          nameController.text,
+          selectedDate,
+          double.parse(heightController.text),
+          double.parse(weightController.text));
 
       //print(newBaby.name);
       // Pop the page off the route stack and pass the new
