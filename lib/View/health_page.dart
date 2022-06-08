@@ -1,5 +1,6 @@
 import 'package:flutter_application_1/model/measure_activity.dart';
 import 'package:flutter_application_1/services/api_controller.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -30,8 +31,9 @@ class _HealthPageState extends ConsumerState<HealthPage> {
   String height = '';
   String weight = '';
   String head = '';
+  String icon = '';
   late DateTime startTime;
-  Color color = Colors.amber;
+  Color color = Color.fromARGB(255, 192, 80, 80);
   var colorController = false;
   var colorController2 = false;
   String activity = '';
@@ -46,12 +48,15 @@ class _HealthPageState extends ConsumerState<HealthPage> {
       case 'Medication':
         choice1 = 'ml';
         choice2 = 'dose';
+        icon = "assets/icons/medication.png";
         break;
       case 'Vaccination':
         color = const Color.fromARGB(255, 71, 208, 235);
+        icon = "assets/icons/vaccination.png";
         break;
       case 'Measure':
-        color = Color.fromARGB(255, 244, 255, 183);
+        color = Color.fromARGB(255, 107, 6, 60);
+        icon = "assets/icons/measure.png";
         break;
     }
   }
@@ -64,7 +69,7 @@ class _HealthPageState extends ConsumerState<HealthPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(builder: EasyLoading.init(),home: Scaffold(
       backgroundColor: color,
       appBar: AppBar(
         backgroundColor: color,
@@ -80,9 +85,10 @@ class _HealthPageState extends ConsumerState<HealthPage> {
       body: SafeArea(
         child: Column(
           children: [
+            Expanded(flex: 1, child: Container(child: Image.asset(icon),padding: const EdgeInsets.fromLTRB(0, 10, 0, 0) )),
             activity == 'Medication'
                 ? Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -93,13 +99,13 @@ class _HealthPageState extends ConsumerState<HealthPage> {
                   )
                 : const SizedBox(),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Container(
                 child: setButton(context),
               ),
             ),
             Expanded(
-              flex: 2,
+              flex: 4,
               child: Center(
                 child: Column(
                   children: [
@@ -147,11 +153,11 @@ class _HealthPageState extends ConsumerState<HealthPage> {
               ),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: addNoteButton(context),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Container(
                 child: okButton(),
               ),
@@ -159,7 +165,7 @@ class _HealthPageState extends ConsumerState<HealthPage> {
           ],
         ),
       ),
-    );
+    ));
   }
 
   choiceButton(String input) {
@@ -176,7 +182,14 @@ class _HealthPageState extends ConsumerState<HealthPage> {
           onPressed: () {
             setState(() {
               colorController = !colorController;
+              
+              if(colorController2){
+                colorController2 = !colorController2;
+              }
               type = choice1;
+              if(!colorController){
+                type = '';
+              }
             });
           },
           child: Center(
@@ -202,7 +215,13 @@ class _HealthPageState extends ConsumerState<HealthPage> {
           onPressed: () {
             setState(() {
               colorController2 = !colorController2;
+              if(colorController){
+                colorController = !colorController;
+              }
               type = choice2;
+              if(!colorController2){
+                type = '';
+              }
             });
           },
           child: Center(
@@ -261,10 +280,12 @@ class _HealthPageState extends ConsumerState<HealthPage> {
   inputField(BuildContext context) {
     return TextField(
       keyboardType: TextInputType.text,
+      maxLength: 20,
       onChanged: (String value) {
         name = value;
       },
       decoration: const InputDecoration(
+         counterText: '',
           hintText: 'Enter name',
           filled: true,
           fillColor: Colors.white,
@@ -276,12 +297,14 @@ class _HealthPageState extends ConsumerState<HealthPage> {
 
   inputField2(BuildContext context) {
     return TextField(
+      maxLength: 3,
       keyboardType: TextInputType.number,
       onChanged: (String value) {
         amount = value;
       },
       decoration: const InputDecoration(
-          hintText: 'Enter ',
+          hintText: 'Enter amount',
+          counterText: '',
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -293,11 +316,13 @@ class _HealthPageState extends ConsumerState<HealthPage> {
   inputField3(BuildContext context) {
     return TextField(
       keyboardType: TextInputType.number,
+      maxLength: 2,
       onChanged: (String value) {
         weight = value;
       },
       decoration: const InputDecoration(
           hintText: 'Enter weight -kg',
+          counterText: '',
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -309,10 +334,12 @@ class _HealthPageState extends ConsumerState<HealthPage> {
   inputField4(BuildContext context) {
     return TextField(
       keyboardType: TextInputType.number,
+      maxLength: 3,
       onChanged: (String value) {
         height = value;
       },
       decoration: const InputDecoration(
+          counterText: '',
           hintText: 'Enter height -cm',
           filled: true,
           fillColor: Colors.white,
@@ -325,11 +352,14 @@ class _HealthPageState extends ConsumerState<HealthPage> {
   inputField5(BuildContext context) {
     return TextField(
       keyboardType: TextInputType.number,
+      maxLength: 3,
       onChanged: (String value) {
         head = value;
       },
       decoration: const InputDecoration(
+          counterText: '',
           hintText: 'Enter head -cm',
+
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -340,14 +370,15 @@ class _HealthPageState extends ConsumerState<HealthPage> {
 
   IconButton okButton() {
     return IconButton(
-      icon: const Icon(Icons.ac_unit),
+      icon: const Icon(Icons.check_circle_outline_sharp),
       iconSize: 100,
       color: Colors.white,
       onPressed: () async {
         startTime = DateTime.now();
-        await objectCreater();
-        Navigator.of(context).pop();
-      },
+        control();
+        }
+
+      ,
     );
   }
 
@@ -358,6 +389,8 @@ class _HealthPageState extends ConsumerState<HealthPage> {
               title: const Text("Add Note"),
               content: TextField(
                 autofocus: true,
+                maxLength: 25,
+                decoration: const InputDecoration(counterText: ""),
                 onChanged: (String value) {
                   note = value;
                 },
@@ -380,10 +413,9 @@ class _HealthPageState extends ConsumerState<HealthPage> {
   }
 
   void setActivity(BuildContext context) {
-    DatePicker.showDateTimePicker(context, onConfirm: ((time) async {
+    DatePicker.showDateTimePicker(context,minTime: DateTime(2022, 4, 1),maxTime: DateTime.now(), onConfirm: ((time) async {
       startTime = time;
-      await objectCreater();
-      Navigator.of(context).pop();
+      control();
     }));
   }
 
@@ -408,5 +440,26 @@ class _HealthPageState extends ConsumerState<HealthPage> {
             ref, measureActivity, TimerActivityType.measureActivity);
         break;
     }
+  }
+
+  Future<void> control() async {
+    if(name != '' && activity == 'Vaccination'){        
+        await objectCreater();
+        Navigator.of(context).pop();
+      }else if(activity == 'Vaccination'){
+        EasyLoading.showToast("Enter name", duration: const Duration(seconds: 1), dismissOnTap: true, toastPosition: EasyLoadingToastPosition.bottom);
+      }
+      if(name != '' && type != '' && amount != '' && activity == 'Medication'){        
+        await objectCreater();
+        Navigator.of(context).pop();
+      }else if(activity == 'Medication'){
+        EasyLoading.showToast("Enter all information", duration: const Duration(seconds: 1), dismissOnTap: true, toastPosition: EasyLoadingToastPosition.bottom);
+      }
+      if(height != '' || weight != '' || head != '' && activity == 'Measure'){        
+        await objectCreater();
+        Navigator.of(context).pop();
+      }else if(activity == 'Measure'){
+        EasyLoading.showToast("Enter information", duration: const Duration(seconds: 1), dismissOnTap: true, toastPosition: EasyLoadingToastPosition.bottom);;
+      }
   }
 }

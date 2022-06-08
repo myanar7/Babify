@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/View/new_baby_profile.dart';
 import 'package:flutter_application_1/model/baby.dart';
+import 'package:flutter_application_1/utilities/keys.dart';
 import 'package:flutter_application_1/widget/profile_widget.dart';
 import 'package:age_calculator/age_calculator.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
@@ -32,7 +33,7 @@ class _BabyProfilePageState extends ConsumerState<BabyProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 227, 233, 236),
+      backgroundColor: bckgrnd,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text('Profile page'),

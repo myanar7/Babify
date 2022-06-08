@@ -6,6 +6,7 @@ import 'package:flutter_application_1/model/pumping_activity.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
 import 'package:flutter_application_1/services/api_controller.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
@@ -26,9 +27,10 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
   String type = '';
   String note = '';
   String amount = '';
+  String icon = '';
   late DateTime startTime;
   var selectedDate = DateTime.now();
-  Color color = Colors.amber;
+  Color color = Color.fromARGB(255, 101, 201, 243);
   String activity = '';
   String choice1 = ' ';
   String choice2 = '';
@@ -41,16 +43,19 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
       case 'Bottle milk':
         choice1 = 'Formula';
         choice2 = "Mom's milk";
+        icon = "assets/icons/milk.png";
         break;
       case 'Pumping':
         choice1 = 'Left breast';
         choice2 = 'Right breast';
-        color = const Color.fromARGB(255, 71, 208, 235);
+        icon = "assets/icons/pumping.png";
+        color = const Color.fromARGB(255, 162, 96, 94);
         break;
       case 'Diaper':
         choice1 = 'Pee';
         choice2 = 'Poo';
-        color = const Color.fromARGB(255, 54, 218, 152);
+        icon = "assets/icons/diaper.png";
+        color = const Color.fromARGB(255, 138, 255, 183);
         break;
     }
   }
@@ -63,7 +68,7 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(builder: EasyLoading.init(),home: Scaffold(
       backgroundColor: color,
       appBar: AppBar(
         backgroundColor: color,
@@ -79,6 +84,7 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
       body: SafeArea(
         child: Column(
           children: [
+            Expanded(flex: 1, child: Container(child: Image.asset(icon),padding: const EdgeInsets.fromLTRB(0, 10, 0, 0) )),
             Expanded(
               flex: 1,
               child: Row(
@@ -117,7 +123,7 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
           ],
         ),
       ),
-    );
+    ));
   }
 
   choiceButton(String input) {
@@ -134,7 +140,14 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
           onPressed: () {
             setState(() {
               colorController = !colorController;
+              
+              if(colorController2){
+                colorController2 = !colorController2;
+              }
               type = choice1;
+              if(!colorController){
+                type = '';
+              }
             });
           },
           child: Center(
@@ -160,7 +173,13 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
           onPressed: () {
             setState(() {
               colorController2 = !colorController2;
+              if(colorController){
+                colorController = !colorController;
+              }
               type = choice2;
+              if(!colorController2){
+                type = '';
+              }
             });
           },
           child: Center(
@@ -219,7 +238,7 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
   inputField(BuildContext context) {
     return TextField(
       keyboardType: TextInputType.number,
-      onSubmitted: (String value) {
+      onChanged: (String value) {
         amount = value;
       },
       decoration: const InputDecoration(
@@ -234,13 +253,12 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
 
   IconButton okButton() {
     return IconButton(
-      icon: const Icon(Icons.ac_unit),
+      icon: const Icon(Icons.check_circle_outline_sharp),
       iconSize: 100,
       color: Colors.white,
       onPressed: () async {
         startTime = DateTime.now();
-        await objectCreater();
-        Navigator.of(context).pop();
+        control();
       },
     );
   }
@@ -251,7 +269,9 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
         builder: (context) => AlertDialog(
               title: const Text("Add Note"),
               content: TextField(
+                maxLength: 25,
                 autofocus: true,
+                decoration: const InputDecoration(counterText: ""),
                 onChanged: (String value) {
                   note = value;
                 },
@@ -274,10 +294,9 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
   }
 
   void setActivity(BuildContext context) {
-    DatePicker.showDateTimePicker(context, onConfirm: ((time) async {
+    DatePicker.showDateTimePicker(context,minTime: DateTime(2022, 4, 1),maxTime: DateTime.now(), onConfirm: ((time) async {
       startTime = time;
-      await objectCreater();
-      Navigator.of(context).pop();
+      control();
     }));
   }
 
@@ -302,5 +321,26 @@ class _ChoicePageState extends ConsumerState<ChoicePage> {
             ref, diaperActivity, TimerActivityType.diaperActivity);
         break;
     }
+  }
+
+  Future<void> control() async {
+    if(type != '' && amount != '' && activity == 'Bottle milk'){        
+        await objectCreater();
+        Navigator.of(context).pop();
+      }else if(activity == 'Bottle milk'){
+        EasyLoading.showToast("Enter all information", duration: const Duration(seconds: 1), dismissOnTap: true, toastPosition: EasyLoadingToastPosition.bottom);
+      }
+      if(type != '' && amount != '' && activity == 'Pumping'){        
+        await objectCreater();
+        Navigator.of(context).pop();
+      }else if(activity == 'Pumping'){
+        EasyLoading.showToast("Enter all information", duration: const Duration(seconds: 1), dismissOnTap: true, toastPosition: EasyLoadingToastPosition.bottom);
+      }
+      if(type != '' && activity == 'Diaper'){        
+        await objectCreater();
+        Navigator.of(context).pop();
+      }else if(activity == 'Diaper'){
+        EasyLoading.showToast("Enter type", duration: const Duration(seconds: 1), dismissOnTap: true, toastPosition: EasyLoadingToastPosition.bottom);
+      }
   }
 }

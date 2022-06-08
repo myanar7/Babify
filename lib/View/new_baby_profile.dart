@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
 import 'package:flutter_application_1/providers/baby_profile_manager.dart';
 import 'package:flutter_application_1/services/api_controller.dart';
+import 'package:flutter_application_1/utilities/keys.dart';
 import 'package:flutter_riverpod/src/consumer.dart';
 import 'package:flutter_application_1/widget/appbar_widget.dart';
 import 'package:flutter_application_1/model/baby_account.dart';
@@ -54,6 +55,7 @@ class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
     ];
 
     return Scaffold(
+      backgroundColor: bckgrnd,
       appBar: buildAppBar(context),
       body: Container(
         //color: Colors.white,

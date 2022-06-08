@@ -12,6 +12,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../model/tummy_activity.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class TimerPage extends ConsumerStatefulWidget {
   final String activity;
@@ -22,40 +23,50 @@ class TimerPage extends ConsumerStatefulWidget {
 }
 
 class _TimerPageState extends ConsumerState<TimerPage> {
+  String _minutes = "0";
+  String _seconds="0";
+  String _hour= "0";
   String activity = '';
-  int second = 0;
+  String icon = '';
+  int second = -1;
   String note = '';
   String provNote = '';
-  MyTimer timer = MyTimer();
+  Duration duration = Duration();
+  late Timer timer;
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
   var _dateController = true;
   var _controller = false;
-  Color color = const Color.fromARGB(255, 107, 195, 108);
+  Color color = const Color.fromARGB(255, 205, 202, 194);
   late TimerActivityType type;
   @override
   void initState() {
     super.initState();
-    timer.reset();
+    reset();
     switch (widget.activity) {
       case 'sleep':
         activity = 'sleep';
+        icon = "assets/icons/sleep.png";
         break;
       case 'tummy':
         activity = 'tummy';
         color = const Color.fromARGB(255, 100, 158, 205);
+        icon = "assets/icons/tummy.png";
         break;
       case 'walk':
         activity = 'walk';
         color = const Color.fromARGB(255, 205, 87, 87);
+        icon = "assets/icons/walk.png";
         break;
       case 'bath':
         activity = 'bath';
-        color = const Color.fromARGB(255, 0, 140, 255);
+        color = const Color.fromARGB(255, 255, 0, 221);
+        icon = "assets/icons/bath.png";
         break;
       case 'breastfeeding':
         activity = 'breastfeeding';
-        color = const Color.fromARGB(255, 234, 254, 155);
+        color = const Color.fromARGB(255, 216, 44, 44);
+        icon = "assets/icons/breastfeeding.png";
         break;
     }
   }
@@ -67,8 +78,10 @@ class _TimerPageState extends ConsumerState<TimerPage> {
 
   @override
   Widget build(BuildContext context) {
-    timer.buildTime();
-    return Scaffold(
+    buildTime();
+    return MaterialApp(
+      builder: EasyLoading.init(),
+      home: Scaffold(
       backgroundColor: color,
       appBar: AppBar(
         backgroundColor: color,
@@ -85,28 +98,31 @@ class _TimerPageState extends ConsumerState<TimerPage> {
       body: SafeArea(
         child: Column(
           children: [
+            Expanded(child: Image.asset(icon),flex: 1,),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Container(
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: Text(
-                  timer.hour + ':' + timer.minutes + ':' + timer.seconds,
+                  _hour.toString() + ':' + _minutes.toString() + ':' + _seconds.toString(),
                   style: const TextStyle(fontSize: 80, color: Colors.white),
                 ),
               ),
             ),
+            
+
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Container(
                 child: setButton(context),
               ),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: addNoteButton(context),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -118,14 +134,14 @@ class _TimerPageState extends ConsumerState<TimerPage> {
           ],
         ),
       ),
-    );
+    ),);
   }
 
   Center addNoteButton(BuildContext context) {
     return Center(
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          fixedSize: const Size(100, 50),
+          fixedSize: const Size(120, 50),
           side: (const BorderSide(color: Colors.white)),
           primary: Colors.white,
           shape: const RoundedRectangleBorder(
@@ -137,7 +153,7 @@ class _TimerPageState extends ConsumerState<TimerPage> {
         child: const Center(
           child: Text(
             "Add note",
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 17),
           ),
         ),
       ),
@@ -151,6 +167,8 @@ class _TimerPageState extends ConsumerState<TimerPage> {
               title: const Text("Add Note"),
               content: TextField(
                 autofocus: true,
+                maxLength: 25,
+                decoration: const InputDecoration(counterText: ""),
                 onChanged: (String value) {
                   note = value;
                 },
@@ -176,7 +194,7 @@ class _TimerPageState extends ConsumerState<TimerPage> {
     return Center(
       child: OutlinedButton(
           style: OutlinedButton.styleFrom(
-            fixedSize: const Size(100, 50),
+            fixedSize: const Size(140, 50),
             side: (const BorderSide(color: Colors.white)),
             primary: Colors.white,
             shape: const RoundedRectangleBorder(
@@ -188,17 +206,24 @@ class _TimerPageState extends ConsumerState<TimerPage> {
           child: Center(
             child: Text(
               'Set ' + activity,
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 17),
             ),
           )),
     );
   }
 
   void setActivity(BuildContext context) {
-    DatePicker.showDateTimePicker(context, onConfirm: (time) {
-      DatePicker.showDateTimePicker(context, onConfirm: ((tim) async {
+    DatePicker.showDateTimePicker(context,minTime: DateTime(2022, 4, 1),maxTime: DateTime.now(), onConfirm: (time) {
+      DatePicker.showDateTimePicker(context, minTime: DateTime(2022, 4, 1),maxTime: DateTime.now(), onConfirm: ((tim) async {
+        startTime = time;
+        endTime = tim;
+        var n = startTime.compareTo(endTime);
+        if(n<0){
         await objectCreater(time, tim, findMinute());
         Navigator.of(context).pop();
+        }else{
+          EasyLoading.showToast("Event must end after it begins");
+        }
       }));
     });
   }
@@ -244,10 +269,16 @@ class _TimerPageState extends ConsumerState<TimerPage> {
       iconSize: 100,
       color: Colors.white,
       onPressed: () async {
-        await objectCreater(
-            startTime, DateTime.now(), timer.duration.inSeconds);
+        if(duration.inSeconds != 0){
+        int minute = (duration.inSeconds / 60).toInt();        
+        await objectCreater(            
+            startTime, DateTime.now(), minute);
         clearTimer();
         Navigator.of(context).pop();
+        }
+        else{
+          EasyLoading.showToast("Timer cannot be 0", duration: const Duration(seconds: 1), dismissOnTap: true, toastPosition: EasyLoadingToastPosition.bottom);
+        }
       },
     );
   }
@@ -258,7 +289,7 @@ class _TimerPageState extends ConsumerState<TimerPage> {
       iconSize: 100,
       color: Colors.white,
       onPressed: () {
-        timer.startTimer();
+        startTimer();
         _controller = true;
         if (_dateController) {
           _dateController = false;
@@ -275,7 +306,7 @@ class _TimerPageState extends ConsumerState<TimerPage> {
       iconSize: 100,
       color: Colors.white,
       onPressed: () {
-        timer.timer.cancel();
+        timer.cancel();
         _controller = false;
         setState(() {});
       },
@@ -283,16 +314,50 @@ class _TimerPageState extends ConsumerState<TimerPage> {
   }
 
   void clearTimer() {
-    timer.reset();
+    reset();
     _controller = false;
-    timer.timer.cancel();
+    timer.cancel();
     setState(() {});
     _dateController = true;
   }
 
   int findMinute() {
-    int totalMinute = (endTime.hour - startTime.hour) * 60 +
-        (endTime.minute - startTime.minute);
+    int totalMinute = (endTime.hour - startTime.hour) * 60 + (endTime.minute - startTime.minute);
+    debugPrint(totalMinute.toString());
+    if(totalMinute < 0){
+      totalMinute = 1440+totalMinute;
+    }
     return totalMinute;
+  }
+
+
+
+   buildTime() {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    _minutes = twoDigits(duration.inMinutes.remainder(60));
+    _seconds = twoDigits(duration.inSeconds.remainder(60));
+    _hour = twoDigits(duration.inHours);
+    return Text(
+      '$_hour:$_minutes:$_seconds',
+      style: const TextStyle(fontSize: 80), 
+    );
+  }
+
+  void startTimer() {
+    timer = Timer.periodic(const Duration(seconds: 1), (_) => addTime());
+  }
+
+  addTime() {
+    final addSeconds = 1;
+    setState(() {
+      final seconds = duration.inSeconds + addSeconds;
+      duration = Duration(seconds: seconds);
+    });
+  }
+
+  void reset() {
+    setState(() {
+      duration = Duration();
+    });
   }
 }
