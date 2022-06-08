@@ -22,45 +22,45 @@ class Activity {
     String type = json['type'];
     if (type == TimerActivityType.sleepActivity.toStringType()) {
       return SleepActivity(
-          json['id'].toString(),
+          json['activityId'].toString(),
           DateTime.parse(json['startTime']),
           DateTime.parse(json['finishTime']),
           json['seconds'],
           json['note']);
     } else if (type == TimerActivityType.tummyActivity.toStringType()) {
       return TummyActivity(
-          json['id'].toString(),
+          json['activityId'].toString(),
           DateTime.parse(json['startTime']),
           DateTime.parse(json['finishTime']),
           json['seconds'],
           json['note']);
     } else if (type == TimerActivityType.bathActivity.toStringType()) {
       return BathActivity(
-          json['id'].toString(),
+          json['activityId'].toString(),
           DateTime.parse(json['startTime']),
           DateTime.parse(json['finishTime']),
           json['seconds'],
           json['note']);
     } else if (type == TimerActivityType.bottleMilkActivity.toStringType()) {
       return BottleMilkActivity(
-          json['id'].toString(),
+          json['activityId'].toString(),
           DateTime.parse(json['startTime']),
-          json['type'],
+          json['bottleMilkType'],
           json['amount'],
           json['note']);
     } else if (type == TimerActivityType.breastFeedingActivity.toStringType()) {
       return BreastFeedingActivity(
-          json['id'].toString(),
+          json['activityId'].toString(),
           DateTime.parse(json['startTime']),
           DateTime.parse(json['finishTime']),
           json['seconds'],
           json['note']);
     } else if (type == TimerActivityType.diaperActivity.toStringType()) {
-      return DiaperActivity(json['id'].toString(),
-          DateTime.parse(json['startTime']), json['type'], json['note']);
+      return DiaperActivity(json['activityId'].toString(),
+          DateTime.parse(json['startTime']), json['diaperType'], json['note']);
     } else if (type == TimerActivityType.measureActivity.toStringType()) {
       return MeasureActivity(
-          json['id'].toString(),
+          json['activityId'].toString(),
           DateTime.parse(json['startTime']),
           json['height'],
           json['weight'],
@@ -68,7 +68,7 @@ class Activity {
           json['note']);
     } else if (type == TimerActivityType.medicationActivity.toStringType()) {
       return MedicationActivity(
-          json['id'].toString(),
+          json['activityId'].toString(),
           DateTime.parse(json['startTime']),
           json['type'],
           json['dose'],
@@ -76,24 +76,27 @@ class Activity {
           json['note']);
     } else if (type == TimerActivityType.pumpingActivity.toStringType()) {
       return PumpingActivity(
-          json['id'].toString(),
+          json['activityId'].toString(),
           DateTime.parse(json['startTime']),
-          json['type'],
+          json['pumpingType'],
           json['amount'],
           json['note']);
     } else if (type == TimerActivityType.vaccinationActivity.toStringType()) {
-      return VaccinationActivity(json['id'].toString(),
-          DateTime.parse(json['startTime']), json['name'] ?? "", json['note']);
+      return VaccinationActivity(
+          json['activityId'].toString(),
+          DateTime.parse(json['startTime']),
+          json['vaccinationName'] ?? "",
+          json['note']);
     } else if (type == TimerActivityType.walkActivity.toStringType()) {
       return WalkActivity(
-          json['id'].toString(),
+          json['activityId'].toString(),
           DateTime.parse(json['startTime']),
           DateTime.parse(json['finishTime']),
           json['seconds'],
           json['note']);
     } else {
       return Activity(
-          id: json['id'].toString(),
+          id: json['activityId'].toString(),
           startTime: DateTime.parse(json['startTime']),
           note: json['note']);
     }

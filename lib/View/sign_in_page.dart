@@ -132,14 +132,6 @@ class _SignInPageStateful extends ConsumerState<SignInPage> {
                           _controllerPassword.text);
                       if (statusCode == 200) {
                         await ApiController.fetchBabies(ref);
-                        if (ref.read(babyProfileProvider).isEmpty) {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const NewBabyProfilePage(),
-                              ));
-                        }
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
