@@ -278,6 +278,17 @@ class ApiController {
     }
   }
 
+  static Future<void> removeTimerActivity(String id) async {
+    final response = await http.delete(
+        Uri.parse('http://dadash3-001-site1.etempurl.com/api/Activity/$id'));
+
+    if (response.statusCode == 204 || response.statusCode == 200) {
+      print("Removed $id");
+    } else {
+      throw Exception('Failed to remove activity');
+    }
+  }
+
   static Future<Baby> postBaby(WidgetRef ref, String name, DateTime birthday,
       double height, double weight) async {
     String body = "";
