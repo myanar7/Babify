@@ -142,7 +142,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Color.fromARGB(255, 101, 201, 243)),
+              color: const Color.fromARGB(255, 205, 202, 194)),
           child: Column(
             children: [
               Expanded(
@@ -173,7 +173,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: const Color.fromARGB(255, 205, 202, 194)),
+              color: Color.fromARGB(255, 101, 201, 243)),
           child: Column(
             children: [
               Expanded(
