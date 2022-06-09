@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/services/api_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../model/baby.dart';
@@ -20,8 +21,8 @@ class BabyProfileManager extends StateNotifier<List<Baby>> {
     state.addAll(babies);
   }
 
-  void removeBabyProfile(Baby baby) {
-    state = state.where((element) => element.id != baby.id).toList();
+  void removeBabyProfile(String id) {
+    state = state.where((element) => element.id != id).toList();
   }
 
   void changeBabyProfile(int index) {

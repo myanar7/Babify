@@ -350,4 +350,15 @@ class ApiController {
       throw Exception("Failed to fetch Babies");
     }
   }
+
+  static Future<void> removeBaby(String id) async {
+    final response = await http.delete(
+        Uri.parse('http://dadash3-001-site1.etempurl.com/api/Baby/$id'));
+
+    if (response.statusCode == 204 || response.statusCode == 200) {
+      print("Removed $id");
+    } else {
+      throw Exception('Failed to remove activity');
+    }
+  }
 }
