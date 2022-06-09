@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/View/new_baby_profile.dart';
 import 'package:flutter_application_1/model/baby.dart';
+import 'package:flutter_application_1/services/api_controller.dart';
 import 'package:flutter_application_1/utilities/keys.dart';
 import 'package:flutter_application_1/widget/profile_widget.dart';
 import 'package:age_calculator/age_calculator.dart';
@@ -40,14 +41,36 @@ class _BabyProfilePageState extends ConsumerState<BabyProfilePage> {
             buildName(),
             buildInfo(),
             Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(16),
-                ),
-              ],
-            ))
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(16),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Builder(
+                builder: (context) {
+                  return RaisedButton(
+                    onPressed: () {
+                      ApiController.removeBaby(widget.baby.id);
+                      ref
+                          .read(babyProfileProvider.notifier)
+                          .removeBabyProfile(widget.baby.id);
+                      Baby.currentIndex = 0;
+                    },
+                    color: Colors.red,
+                    child: const Text(
+                      'Delete Baby',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
