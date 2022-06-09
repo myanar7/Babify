@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends ConsumerStatefulWidget {
-  late final User user;
+  late String user;
 
   MyHomePage({Key? key, required this.user}) : super(key: key);
 
@@ -143,7 +143,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
           children: [
             HomePage(),
             if (_allBabies.isNotEmpty)
-              BabyProfilePage(baby: _allBabies[Baby.currentIndex])
+              BabyProfilePage(baby: _allBabies[Baby.currentIndex==-1 ? 0 : Baby.currentIndex],)
             else
               NewBabyProfilePage(),
             EntartainmentPage(),

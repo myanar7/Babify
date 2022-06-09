@@ -31,7 +31,7 @@ class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
+        firstDate: DateTime(DateTime.now().year-3, DateTime.now().month),
         lastDate: DateTime.now());
     if (picked != null && picked != selectedDate) {
       setState(() {
@@ -56,32 +56,30 @@ class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
 
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 244, 197, 243),
-      appBar: buildAppBar(context),
       body: Container(
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 50,
-            horizontal: 20.0,
+            vertical: 5,
+            horizontal: 20,
           ),
           child: Column(children: [
-            userInput(nameController, 'Name', TextInputType.text),
-            userInput(heightController, 'Height (cm)', TextInputType.number),
-            userInput(weightController, 'Weight (kg)', TextInputType.number),
-            Column(
+            Expanded(flex: 2,child: userInput(nameController, 'Name', TextInputType.text)),
+            Expanded(flex:2 ,child: userInput(heightController, 'Height (cm)', TextInputType.number)),
+            Expanded(flex:2, child: userInput(weightController, 'Weight (kg)', TextInputType.number)),
+            Expanded(flex: 1, child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text("${selectedDate.toLocal()}".split(' ')[0]),
-                SizedBox(
+                Expanded(child: SizedBox(
                   height: 10.0,
-                ),
-                RaisedButton(
+                )),
+                Expanded(child: RaisedButton(
                   onPressed: () => _selectDate(context),
                   child: Text('Select birthdate'),
                   color: Colors.pink[100],
-                ),
+                )),
               ],
-            ),
-            Padding(
+            )),
+            Expanded(flex:1 ,child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Builder(
                 builder: (context) {
@@ -92,16 +90,16 @@ class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
                   );
                 },
               ),
-            ),
-            Center(
+            )),
+            Expanded(flex:1, child: Center(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Padding(
+                Expanded(child: Padding(
                   padding: EdgeInsets.all(16),
-                ),
+                ),)
               ],
-            ))
+            )))
           ]),
         ),
       ),
@@ -158,7 +156,9 @@ class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
       // dog back to wherever this page was created.
 
       ref.read(babyProfileProvider.notifier).addBabyProfile(newBaby);
-      Navigator.pop(context);
+      if(ref.read(babyProfileProvider).length != 1){
+        Navigator.pop(context);
+      }
       //Navigator.of(context).pushNamed('/baby_profile_page');
     }
   }

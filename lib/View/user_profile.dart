@@ -13,7 +13,7 @@ import '../model/user.dart';
 import '../widget/appbar_widget.dart';
 
 class UserProfilePage extends ConsumerStatefulWidget {
-  late final User user;
+  late String user;
 
   UserProfilePage({Key? key, required this.user}) : super(key: key);
 
@@ -31,7 +31,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         physics: BouncingScrollPhysics(),
         children: [
           ProfileWidget(
-            imagePath: widget.user.photoPath,
+            imagePath: "http://cdn.onlinewebfonts.com/svg/img_569204.png",
           ),
           const SizedBox(height: 24),
           buildInfo(),
@@ -47,7 +47,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         padding: EdgeInsets.symmetric(horizontal: 48),
         child: Column(
           children: [
-            Text(widget.user.username, style: const TextStyle(fontSize: 16)),
+            Text(widget.user, style: const TextStyle(fontSize: 16)),
             const SizedBox(height: 20),
             //Text(
             //widget.user.email,
