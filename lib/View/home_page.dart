@@ -89,12 +89,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ApiController.removeTimerActivity(
                         _allTimerActivities[index].id);
                   },
-                  child: GestureDetector(
-                    onTap: () {
-                      setActivity(context, _allTimerActivities[index].id);
-                    },
-                    child: setValue(_allTimerActivities[index]),
-                  ));
+                  child:  setValue(_allTimerActivities[index]),
+                  );
     }) 
     
     
@@ -125,7 +121,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   GridView grid(BuildContext context, TimerPage sleepActivity, ChoicePage bottleMilk, TimerPage breastFeedingActivity, ChoicePage pumping, ChoicePage diaper) {
     return GridView.count(
-            addSemanticIndexes: false,
+            
             shrinkWrap: true,
             primary: false,
             padding: const EdgeInsets.all(10),
@@ -450,7 +446,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                         " to " +
                         finishTime.hour.toString() +
                         ":" +
-                        finishMinute,
+                        finishMinute + " - " + a.startTime.day.toString() +
+                    "/" + a.startTime.month.toString() + '/' + a.startTime.year.toString() ,
                     style: const TextStyle(fontWeight: FontWeight.w200),
                   ),
                 ),
@@ -497,7 +494,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
                 Expanded(
                   child: Text(
-                    a.startTime.hour.toString() + ":" + startMinute,
+                    a.startTime.hour.toString() + ":" + startMinute + " - " + a.startTime.day.toString() +
+                    "/" + a.startTime.month.toString() + '/' + a.startTime.year.toString() ,
                     style: const TextStyle(fontWeight: FontWeight.w200),
                   ),
                 ),
@@ -557,7 +555,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
                 Expanded(
                   child: Text(
-                    a.startTime.hour.toString() + ":" + startMinute,
+                    a.startTime.hour.toString() + ":" + startMinute + " - " + a.startTime.day.toString() +
+                    "/" + a.startTime.month.toString() + '/' + a.startTime.year.toString() ,
                     style: const TextStyle(fontWeight: FontWeight.w200),
                   ),
                 ),

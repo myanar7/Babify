@@ -116,6 +116,7 @@ class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
       child: Padding(
         padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
         child: TextField(
+          maxLength: hintTitle == 'Name' ? 20 : 3,
           controller: userInput,
           autocorrect: false,
           enableSuggestions: false,
