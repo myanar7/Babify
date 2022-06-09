@@ -63,24 +63,30 @@ class _HomePageState extends ConsumerState<HomePage> {
     var diaper = const ChoicePage(activity: 'Diaper');
 
     return Scaffold(
-        backgroundColor: bckgrnd,
-        body: GridView.count(
-          crossAxisCount: 1,
-         
-          children: [
-            grid(context, sleepActivity, bottleMilk, breastFeedingActivity, pumping, diaper),
-            listVi()
-          ],),);
+      backgroundColor: bckgrnd,
+      body: Column(
+        children: [
+          Expanded(
+            flex: 1,
+            child: grid(context, sleepActivity, bottleMilk,
+                breastFeedingActivity, pumping, diaper),
+          ),
+          Expanded(flex: 1, child: listVi())
+        ],
+      ),
+    );
   }
 
   GridView listVi() {
     return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1,childAspectRatio: 1/0.15,), 
-      itemCount: _allTimerActivities.length,
-      padding: EdgeInsets.all(0),
-      
-      itemBuilder: (BuildContext ctx, index){
-        return Dismissible(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 1,
+              childAspectRatio: 1 / 0.15,
+            ),
+            itemCount: _allTimerActivities.length,
+            padding: EdgeInsets.all(0),
+            itemBuilder: (BuildContext ctx, index) {
+              return Dismissible(
                   key: ValueKey(_allTimerActivities[index].id),
                   onDismissed: (a) {
                     ref
@@ -95,12 +101,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                     },
                     child: setValue(_allTimerActivities[index]),
                   ));
-    }) 
-    
-    
-    
-    
-    /*ListView.builder(
+            })
+
+        /*ListView.builder(
             shrinkWrap: true,
             itemCount: _allTimerActivities.length,
             itemBuilder: ((context, index) {
@@ -120,198 +123,204 @@ class _HomePageState extends ConsumerState<HomePage> {
                     child: setValue(_allTimerActivities[index]),
                   ));
             }),
-          )*/;
+          )*/
+        ;
   }
 
-  GridView grid(BuildContext context, TimerPage sleepActivity, ChoicePage bottleMilk, TimerPage breastFeedingActivity, ChoicePage pumping, ChoicePage diaper) {
+  GridView grid(
+      BuildContext context,
+      TimerPage sleepActivity,
+      ChoicePage bottleMilk,
+      TimerPage breastFeedingActivity,
+      ChoicePage pumping,
+      ChoicePage diaper) {
     return GridView.count(
-            addSemanticIndexes: false,
-            shrinkWrap: true,
-            primary: false,
-            padding: const EdgeInsets.all(10),
-
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 10,
-            crossAxisCount: 3,
+      addSemanticIndexes: false,
+      shrinkWrap: true,
+      primary: false,
+      padding: const EdgeInsets.all(10),
+      crossAxisSpacing: 5,
+      mainAxisSpacing: 0,
+      crossAxisCount: 3,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color.fromARGB(89, 139, 144, 146)),
+          child: Column(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color.fromARGB(89, 139, 144, 146)),
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: IconButton(
-                        iconSize: 220,
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => sleepActivity));
-                        },
-                        icon: Image.asset("assets/icons/sleep.png"),
-                      ),
-                    ),
-                    const Expanded(
-                      child: Text(
-                        "Sleep",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      flex: 1,
-                    ),
-                  ],
+              Expanded(
+                flex: 5,
+                child: IconButton(
+                  iconSize: 220,
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => sleepActivity));
+                  },
+                  icon: Image.asset("assets/icons/sleep.png"),
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color.fromARGB(255, 101, 201, 243)),
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: IconButton(
-                        iconSize: 220,
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => bottleMilk));
-                        },
-                        icon: Image.asset("assets/icons/milk.png"),
-                      ),
-                    ),
-                    const Expanded(
-                      child: Text(
-                        "Bottle Milk",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      flex: 1,
-                    ),
-                  ],
+              const Expanded(
+                child: Text(
+                  "Sleep",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color.fromARGB(255, 216, 44, 44)),
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: IconButton(
-                        iconSize: 220,
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => breastFeedingActivity));
-                        },
-                        icon: Image.asset("assets/icons/breastfeeding.png"),
-                      ),
-                    ),
-                    const Expanded(
-                      child: Text(
-                        "Breastfeeding",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      flex: 1,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color.fromARGB(255, 162, 96, 94)),
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: IconButton(
-                        iconSize: 220,
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => pumping));
-                        },
-                        icon: Image.asset("assets/icons/pumping.png"),
-                      ),
-                    ),
-                    const Expanded(
-                      child: Text(
-                        "Pumping",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      flex: 1,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color.fromARGB(255, 138, 255, 183)),
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: IconButton(
-                        iconSize: 220,
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => diaper));
-                        },
-                        icon: Image.asset("assets/icons/diaper.png"),
-                      ),
-                    ),
-                    const Expanded(
-                      child: Text(
-                        "Diaper",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      flex: 1,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color.fromARGB(255, 209, 178, 104)),
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: IconButton(
-                        iconSize: 220,
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const ActivityPage()));
-                        },
-                        icon: Image.asset("assets/icons/add.png"),
-                      ),
-                    ),
-                    const Expanded(
-                      child: Text(
-                        "Add Activity",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      flex: 1,
-                    ),
-                  ],
-                ),
+                flex: 1,
               ),
             ],
-          );
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color.fromARGB(255, 101, 201, 243)),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 5,
+                child: IconButton(
+                  iconSize: 220,
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => bottleMilk));
+                  },
+                  icon: Image.asset("assets/icons/milk.png"),
+                ),
+              ),
+              const Expanded(
+                child: Text(
+                  "Bottle Milk",
+                  style: TextStyle(color: Colors.white),
+                ),
+                flex: 1,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color.fromARGB(255, 216, 44, 44)),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 5,
+                child: IconButton(
+                  iconSize: 220,
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => breastFeedingActivity));
+                  },
+                  icon: Image.asset("assets/icons/breastfeeding.png"),
+                ),
+              ),
+              const Expanded(
+                child: Text(
+                  "Breastfeeding",
+                  style: TextStyle(color: Colors.white),
+                ),
+                flex: 1,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color.fromARGB(255, 162, 96, 94)),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 5,
+                child: IconButton(
+                  iconSize: 220,
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => pumping));
+                  },
+                  icon: Image.asset("assets/icons/pumping.png"),
+                ),
+              ),
+              const Expanded(
+                child: Text(
+                  "Pumping",
+                  style: TextStyle(color: Colors.white),
+                ),
+                flex: 1,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color.fromARGB(255, 138, 255, 183)),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 5,
+                child: IconButton(
+                  iconSize: 220,
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => diaper));
+                  },
+                  icon: Image.asset("assets/icons/diaper.png"),
+                ),
+              ),
+              const Expanded(
+                child: Text(
+                  "Diaper",
+                  style: TextStyle(color: Colors.white),
+                ),
+                flex: 1,
+              ),
+            ],
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color.fromARGB(255, 209, 178, 104)),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 5,
+                child: IconButton(
+                  iconSize: 220,
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ActivityPage()));
+                  },
+                  icon: Image.asset("assets/icons/add.png"),
+                ),
+              ),
+              const Expanded(
+                child: Text(
+                  "Add Activity",
+                  style: TextStyle(color: Colors.white),
+                ),
+                flex: 1,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   void setActivity(BuildContext context, String id) {
