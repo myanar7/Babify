@@ -79,6 +79,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   GridView listVi() {
     return GridView.builder(
+            shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 1,
               childAspectRatio: 1 / 0.15,
@@ -172,7 +173,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Color.fromARGB(255, 101, 201, 243)),
+              color: const Color.fromARGB(255, 205, 202, 194)),
           child: Column(
             children: [
               Expanded(
