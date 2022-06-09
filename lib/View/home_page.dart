@@ -87,22 +87,19 @@ class _HomePageState extends ConsumerState<HomePage> {
             padding: EdgeInsets.all(0),
             itemBuilder: (BuildContext ctx, index) {
               return Dismissible(
-                  key: ValueKey(_allTimerActivities[index].id),
-                  onDismissed: (a) {
-                    ref
-                        .read(timerActivityProvider.notifier)
-                        .remove(_allTimerActivities[index]);
-                    ApiController.removeTimerActivity(
-                        _allTimerActivities[index].id);
-                  },
-                  child:  setValue(_allTimerActivities[index]),
-                  );
-    }) 
-    
-    
-    
-    
-    /*ListView.builder(
+                key: ValueKey(_allTimerActivities[index].id),
+                onDismissed: (a) {
+                  ref
+                      .read(timerActivityProvider.notifier)
+                      .remove(_allTimerActivities[index]);
+                  ApiController.removeTimerActivity(
+                      _allTimerActivities[index].id);
+                },
+                child: setValue(_allTimerActivities[index]),
+              );
+            })
+
+        /*ListView.builder(
             shrinkWrap: true,
             itemCount: _allTimerActivities.length,
             itemBuilder: ((context, index) {
@@ -134,13 +131,18 @@ class _HomePageState extends ConsumerState<HomePage> {
       ChoicePage pumping,
       ChoicePage diaper) {
     return GridView.count(
-            shrinkWrap: true,
-            primary: false,
-            padding: const EdgeInsets.all(10),
-
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 10,
-            crossAxisCount: 3,
+      shrinkWrap: true,
+      primary: false,
+      padding: const EdgeInsets.all(10),
+      crossAxisSpacing: 5,
+      mainAxisSpacing: 10,
+      crossAxisCount: 3,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color.fromARGB(255, 101, 201, 243)),
+          child: Column(
             children: [
               Expanded(
                 flex: 5,
@@ -452,8 +454,13 @@ class _HomePageState extends ConsumerState<HomePage> {
                         " to " +
                         finishTime.hour.toString() +
                         ":" +
-                        finishMinute + " - " + a.startTime.day.toString() +
-                    "/" + a.startTime.month.toString() + '/' + a.startTime.year.toString() ,
+                        finishMinute +
+                        " - " +
+                        a.startTime.day.toString() +
+                        "/" +
+                        a.startTime.month.toString() +
+                        '/' +
+                        a.startTime.year.toString(),
                     style: const TextStyle(fontWeight: FontWeight.w200),
                   ),
                 ),
@@ -500,8 +507,15 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
                 Expanded(
                   child: Text(
-                    a.startTime.hour.toString() + ":" + startMinute + " - " + a.startTime.day.toString() +
-                    "/" + a.startTime.month.toString() + '/' + a.startTime.year.toString() ,
+                    a.startTime.hour.toString() +
+                        ":" +
+                        startMinute +
+                        " - " +
+                        a.startTime.day.toString() +
+                        "/" +
+                        a.startTime.month.toString() +
+                        '/' +
+                        a.startTime.year.toString(),
                     style: const TextStyle(fontWeight: FontWeight.w200),
                   ),
                 ),
@@ -561,8 +575,15 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
                 Expanded(
                   child: Text(
-                    a.startTime.hour.toString() + ":" + startMinute + " - " + a.startTime.day.toString() +
-                    "/" + a.startTime.month.toString() + '/' + a.startTime.year.toString() ,
+                    a.startTime.hour.toString() +
+                        ":" +
+                        startMinute +
+                        " - " +
+                        a.startTime.day.toString() +
+                        "/" +
+                        a.startTime.month.toString() +
+                        '/' +
+                        a.startTime.year.toString(),
                     style: const TextStyle(fontWeight: FontWeight.w200),
                   ),
                 ),
