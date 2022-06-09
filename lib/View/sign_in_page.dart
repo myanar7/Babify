@@ -132,19 +132,15 @@ class _SignInPageStateful extends ConsumerState<SignInPage> {
                           _controllerUsername.text,
                           _controllerPassword.text);
 
-                      User newUser = User(
-                          id: "",
-                          photoPath:
-                              "http://cdn.onlinewebfonts.com/svg/img_569204.png",
-                          username: _controllerUsername.text,
-                          email: "");
+                     
                       if (statusCode == 200) {
+                        String userName = _controllerUsername.text.toString();
                         await ApiController.fetchBabies(ref);
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    MyHomePage(user: newUser)));
+                                    MyHomePage( user: userName,)));
                       }
                       print("object");
                     },

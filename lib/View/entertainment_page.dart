@@ -24,7 +24,7 @@ class _EntartainmentPageState extends State<EntartainmentPage> {
 
   _initChannel() async {
     Channel channel = await YtAPIService.instance
-        .fetchChannel(channelId: 'UCONtPx56PSebXJOxbFv-2jQ');
+        .fetchChannel(channelId: 'UCKAqou7V9FAWXpZd9xtOg3Q');
     setState(() {
       _channel = channel;
     });

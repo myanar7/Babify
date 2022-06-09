@@ -171,6 +171,7 @@ class _SignUpPageStateful extends State<SignUpPage> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(20))),
                     child: TextField(
+                      keyboardType: TextInputType.number,
                       controller: _controllerPhoneNumber,
                       decoration: const InputDecoration(
                           border: InputBorder.none, hintText: "Phone Number"),
