@@ -55,31 +55,33 @@ class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
     ];
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 244, 197, 243),
+      backgroundColor: Color.fromARGB(255, 249, 201, 234),
+      resizeToAvoidBottomInset: false,
       body: Container(
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 5,
-            horizontal: 20,
+            vertical: 100,
+            horizontal: 20.0,
           ),
           child: Column(children: [
-            Expanded(flex: 2,child: userInput(nameController, 'Name', TextInputType.text)),
-            Expanded(flex:2 ,child: userInput(heightController, 'Height (cm)', TextInputType.number)),
-            Expanded(flex:2, child: userInput(weightController, 'Weight (kg)', TextInputType.number)),
-            Expanded(flex: 1, child: Column(
+            userInput(nameController, 'Name', TextInputType.text),
+            userInput(heightController, 'Height', TextInputType.number),
+            userInput(weightController, 'Weight', TextInputType.number),
+            Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Expanded(child: SizedBox(
+                Text("${selectedDate.toLocal()}".split(' ')[0]),
+                SizedBox(
                   height: 10.0,
-                )),
-                Expanded(child: RaisedButton(
+                ),
+                RaisedButton(
                   onPressed: () => _selectDate(context),
                   child: Text('Select birthdate'),
                   color: Colors.pink[100],
-                )),
+                ),
               ],
-            )),
-            Expanded(flex:1 ,child: Padding(
+            ),
+            Padding(
               padding: const EdgeInsets.all(16.0),
               child: Builder(
                 builder: (context) {
@@ -90,16 +92,16 @@ class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
                   );
                 },
               ),
-            )),
-            Expanded(flex:1, child: Center(
+            ),
+            Center(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Expanded(child: Padding(
+                Padding(
                   padding: EdgeInsets.all(16),
-                ),)
+                ),
               ],
-            )))
+            ))
           ]),
         ),
       ),
@@ -138,8 +140,6 @@ class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
   void submitBaby(BuildContext context) async {
     //print("hereee");
     // First make sure there is some information in the form.
-    // A dog needs a name, but may be location independent,
-    // so we'll only abandon the save if there's no name.
     if (nameController.text.isEmpty) {
       print('Baby needs a name!');
     } else {
