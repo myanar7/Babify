@@ -299,7 +299,7 @@ class ApiController {
       'name': name,
       'birthDay': birthday.toString(),
       'photoURL':
-          'https://images.pexels.com/photos/1556706/pexels-photo-1556706.jpeg?cs=srgb&dl=pexels-daniel-reche-1556706.jpg&fm=jpg',
+          'https://i.pinimg.com/originals/1c/62/92/1c6292b7d8e5fe3808d0e36a62359b16.png',
       'height': height,
       'weight': weight,
       'parentId1': prefs.getInt('id'),
@@ -324,7 +324,7 @@ class ApiController {
       return Baby(
           id: response.body,
           photoPath:
-              'https://images.pexels.com/photos/1556706/pexels-photo-1556706.jpeg?cs=srgb&dl=pexels-daniel-reche-1556706.jpg&fm=jpg',
+              'https://i.pinimg.com/originals/1c/62/92/1c6292b7d8e5fe3808d0e36a62359b16.png',
           name: name,
           birthday: birthday,
           height: height,
