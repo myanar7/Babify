@@ -55,68 +55,29 @@ class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
     ];
 
     return Scaffold(
-      backgroundColor: bckgrnd,
+      backgroundColor: Color.fromARGB(255, 244, 197, 243),
       appBar: buildAppBar(context),
       body: Container(
-        //color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            vertical: 8.0,
-            horizontal: 32.0,
+            vertical: 50,
+            horizontal: 20.0,
           ),
           child: Column(children: [
-            TextField(
-              controller: nameController,
-              decoration: InputDecoration(
-                hintText: "Name",
-                border: OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    nameController.clear();
-                  },
-                  icon: const Icon(Icons.clear),
-                ),
-              ),
-            ),
-            SizedBox(height: 30),
-            TextField(
-              controller: heightController,
-              decoration: InputDecoration(
-                hintText: "Height",
-                border: OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    heightController.clear();
-                  },
-                  icon: const Icon(Icons.clear),
-                ),
-              ),
-            ),
-            SizedBox(height: 30),
-            TextField(
-              controller: weightController,
-              decoration: InputDecoration(
-                hintText: "Weight",
-                border: OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    weightController.clear();
-                  },
-                  icon: const Icon(Icons.clear),
-                ),
-              ),
-            ),
-            SizedBox(height: 30),
+            userInput(nameController, 'Name', TextInputType.text),
+            userInput(heightController, 'Height (cm)', TextInputType.number),
+            userInput(weightController, 'Weight (kg)', TextInputType.number),
             Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text("${selectedDate.toLocal()}".split(' ')[0]),
                 SizedBox(
-                  height: 20.0,
+                  height: 10.0,
                 ),
                 RaisedButton(
                   onPressed: () => _selectDate(context),
                   child: Text('Select birthdate'),
+                  color: Colors.pink[100],
                 ),
               ],
             ),
@@ -126,13 +87,49 @@ class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
                 builder: (context) {
                   return RaisedButton(
                     onPressed: () => submitBaby(context),
-                    color: Colors.indigoAccent,
-                    child: Text('Submit Baby'),
+                    color: Colors.pink[100],
+                    child: Text('Create Baby Account'),
                   );
                 },
               ),
             ),
+            Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(16),
+                ),
+              ],
+            ))
           ]),
+        ),
+      ),
+    );
+  }
+
+  Widget userInput(TextEditingController userInput, String hintTitle,
+      TextInputType keyboardType) {
+    return Container(
+      height: 55,
+      margin: EdgeInsets.only(bottom: 15),
+      decoration: BoxDecoration(
+          color: Colors.white70, borderRadius: BorderRadius.circular(30)),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 25.0, top: 15, right: 25),
+        child: TextField(
+          controller: userInput,
+          autocorrect: false,
+          enableSuggestions: false,
+          autofocus: false,
+          decoration: InputDecoration.collapsed(
+            hintText: hintTitle,
+            hintStyle: TextStyle(
+                fontSize: 18,
+                color: Colors.grey[350],
+                fontStyle: FontStyle.italic),
+          ),
+          keyboardType: keyboardType,
         ),
       ),
     );
@@ -161,12 +158,7 @@ class _NewBabyProfilePageState extends ConsumerState<NewBabyProfilePage> {
       // dog back to wherever this page was created.
 
       ref.read(babyProfileProvider.notifier).addBabyProfile(newBaby);
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => BabyProfilePage(
-                    baby: newBaby,
-                  )));
+      Navigator.pop(context);
       //Navigator.of(context).pushNamed('/baby_profile_page');
     }
   }

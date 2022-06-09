@@ -21,78 +21,35 @@ class BabyProfilePage extends ConsumerStatefulWidget {
 class _BabyProfilePageState extends ConsumerState<BabyProfilePage> {
   String resultText = "";
 
-  Future _showNewBabyProfile() async {
-    // push a new route like you did in the last section
-    Baby baby = await Navigator.of(context).push(MaterialPageRoute(
-      builder: (BuildContext context) {
-        return const NewBabyProfilePage();
-      },
-    ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bckgrnd,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: const Text('Profile page'),
-      ),
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        children: [
-          ProfileWidget(
-            imagePath: widget.baby.photoPath,
-            onClicked: () async {},
-          ),
-          buildName(),
-          buildInfo(),
-
-          //IconButton(icon: Icon(Icons.add), onPressed: _showNewBabyProfile),
-          Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: Text(resultText),
+      body: Container(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 20,
+                horizontal: 20.0,
               ),
-              // RaisedButton(
-              //   onPressed: () {
-              //     showAccountSelectorSheet(
-              //       context: context,
-              //       accountList: _allBabies,
-              //       isSheetDismissible: false, //Optional
-              //       initiallySelectedIndex: 2, //Optional
-              //       hideSheetOnItemTap: true,
-              //       showAddAccountOption: true, //Optional
-              //       backgroundColor: Colors.indigo, //Optional
-              //       arrowColor: Colors.white, //Optional
-              //       unselectedRadioColor: Colors.white, //Optional
-              //       selectedRadioColor: Colors.amber, //Optional
-              //       unselectedTextColor: Colors.white, //Optional
-              //       selectedTextColor: Colors.amber, //Optional
-              //       //Optional
-              //       tapCallback: (index) {
-              //         ref
-              //             .read(babyProfileProvider.notifier)
-              //             .changeBabyProfile(index);
-              //       },
-              //       //Optional
-              //       addAccountTapCallback: () {
-              //         setState(() {
-              //           resultText = "Add account clicked";
-              //           _showNewBabyProfile();
-              //         });
-              //         print(resultText);
-              //       },
-              //     );
-              //   },
-              //   child: Text("Select Baby"),
-              // ),
-            ],
-          ))
-        ],
+            ),
+            ProfileWidget(
+              imagePath: widget.baby.photoPath,
+            ),
+            buildName(),
+            buildInfo(),
+            Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(16),
+                ),
+              ],
+            ))
+          ],
+        ),
       ),
     );
   }
@@ -117,11 +74,11 @@ class _BabyProfilePageState extends ConsumerState<BabyProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '\n\nHeight: ' + widget.baby.height.toString() + "\n",
+              '\n\nHeight: ' + widget.baby.height.toString() + " cm\n",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             Text(
-              'Weight: ' + widget.baby.weight.toString(),
+              'Weight: ' + widget.baby.weight.toString() + " kg",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ],
