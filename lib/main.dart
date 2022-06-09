@@ -126,7 +126,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
                     );
                   }
                 },
-                icon: const Icon(Icons.person))
+                icon: const Icon(Icons.child_care))
           ],
           bottom: TabBar(
             onTap: (index) {
@@ -143,7 +143,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
           children: [
             HomePage(),
             if (_allBabies.isNotEmpty)
-              BabyProfilePage(baby: _allBabies[Baby.currentIndex==-1 ? 0 : Baby.currentIndex],)
+              BabyProfilePage(
+                baby:
+                    _allBabies[Baby.currentIndex == -1 ? 0 : Baby.currentIndex],
+              )
             else
               NewBabyProfilePage(),
             EntartainmentPage(),
