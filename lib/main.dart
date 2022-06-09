@@ -136,7 +136,7 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
             controller: _controller,
             tabs: list,
           ),
-          title: const Text('Babify App Bar'),
+          title: const Text('Babify'),
         ),
         body: TabBarView(
           controller: _controller,
