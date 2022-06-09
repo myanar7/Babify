@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/View/new_baby_profile.dart';
 import 'package:flutter_application_1/View/sign_up_page.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/model/user.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
 import 'package:flutter_application_1/services/api_controller.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -130,12 +131,20 @@ class _SignInPageStateful extends ConsumerState<SignInPage> {
                           context,
                           _controllerUsername.text,
                           _controllerPassword.text);
+
+                      User newUser = User(
+                          id: "",
+                          photoPath:
+                              "http://cdn.onlinewebfonts.com/svg/img_569204.png",
+                          username: _controllerUsername.text,
+                          email: "");
                       if (statusCode == 200) {
                         await ApiController.fetchBabies(ref);
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const MyHomePage()));
+                                builder: (context) =>
+                                    MyHomePage(user: newUser)));
                       }
                       print("object");
                     },

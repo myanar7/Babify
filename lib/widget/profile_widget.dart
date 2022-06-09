@@ -4,18 +4,14 @@ import 'package:flutter/material.dart';
 
 class ProfileWidget extends StatelessWidget {
   final String imagePath;
-  final VoidCallback onClicked;
 
   const ProfileWidget({
     Key? key,
     required this.imagePath,
-    required this.onClicked,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).colorScheme.primary;
-
     return Center(
       child: Stack(
         children: [
@@ -23,7 +19,7 @@ class ProfileWidget extends StatelessWidget {
           Positioned(
             bottom: 0,
             right: 4,
-            child: buildEditIcon(color),
+            child: buildEditIcon(Colors.blueGrey),
           ),
         ],
       ),
@@ -41,7 +37,6 @@ class ProfileWidget extends StatelessWidget {
           fit: BoxFit.cover,
           width: 128,
           height: 128,
-          child: InkWell(onTap: onClicked),
         ),
       ),
     );

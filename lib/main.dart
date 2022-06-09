@@ -4,8 +4,11 @@ import 'package:flutter_application_1/View/album_page.dart';
 import 'package:flutter_application_1/View/color_match_game_page.dart';
 import 'package:flutter_application_1/View/comment_page.dart';
 import 'package:flutter_application_1/View/new_baby_profile.dart';
+import 'package:flutter_application_1/View/baby_profile_page.dart';
 import 'package:flutter_application_1/View/sign_in_page.dart';
+import 'package:flutter_application_1/View/user_profile.dart';
 import 'package:flutter_application_1/model/baby.dart';
+import 'package:flutter_application_1/model/user.dart';
 import 'package:flutter_application_1/providers/all_providers.dart';
 import 'package:flutter_application_1/services/api_controller.dart';
 import 'package:flutter_application_1/utilities/keys.dart';
@@ -32,7 +35,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends ConsumerStatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  late final User user;
+
+  MyHomePage({Key? key, required this.user}) : super(key: key);
 
   @override
   ConsumerState<MyHomePage> createState() => _MyHomePageState();
@@ -66,6 +71,17 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: apbr,
+          leading: IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => UserProfilePage(
+                            user: widget.user,
+                          )));
+            },
+          ),
           actions: [
             IconButton(
                 onPressed: () {
@@ -99,7 +115,12 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
                       //Optional
                       addAccountTapCallback: () {
                         setState(() {
-                          _controller.animateTo(1);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const NewBabyProfilePage()),
+                          );
                         });
                       },
                     );
@@ -119,9 +140,12 @@ class _MyHomePageState extends ConsumerState<MyHomePage>
         ),
         body: TabBarView(
           controller: _controller,
-          children: const [
+          children: [
             HomePage(),
-            NewBabyProfilePage(),
+            if (_allBabies.isNotEmpty)
+              BabyProfilePage(baby: _allBabies[Baby.currentIndex])
+            else
+              NewBabyProfilePage(),
             EntartainmentPage(),
             AlbumPage(),
             CommentPage(),
