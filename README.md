@@ -7,4 +7,4 @@ Hello World Emir Said Baby
 
 ## Getting Started
 
-Please Use Provider To Manage Business Logics
+Please Use Provider To Manage Business Logics.
